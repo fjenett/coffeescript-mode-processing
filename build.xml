@@ -1,0 +1,89 @@
+<project name="BezierCoffeeScriptMode" default="install" basedir="./">
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++
+	
+		CoffeeScript mode.
+		http://coffeescript.org/
+	
+	+++++++++++++++++++++++++++++++++++++++++++ -->
+	
+	<property name="src" 		value="src" />
+	<property name="build" 		value="build" />
+	<property name="bin" 		value="bin" />
+	<property name="dist" 		value="dist" />
+	<property name="lib.name" 	value="CoffeeScriptMode" />
+	<property name="java.target.version" 
+								value="1.5" />
+	
+	<!--property name="processing.classes" location="/Applications/Processing.app/Contents/Resources/Java/"/-->
+	<property name="processing.classes" location="/Users/fjenett/Repos/processing/processing/build/macosx/work/Processing.app/Contents/Resources/Java/"/>
+	<property name="processing.modes" location="/Users/fjenett/Documents/Processing/modes"/>	
+
+	<path id="library-classpath">
+		<fileset dir="${processing.classes}" >
+			<include name="core.jar" />
+			<include name="pde.jar" />
+		</fileset>
+	</path>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - -
+		HELP
+	- - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="help">
+		<echo>HEELP!</echo>
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - -
+		BUILD
+	- - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="build">
+		
+		<mkdir dir="${build}" />
+		<delete dir="${bin}" />
+		<mkdir dir="${bin}" />
+		
+		<javac srcdir="${src}" destdir="${bin}" source="${java.target.version}">
+			<classpath>
+				<path refid="library-classpath"/>
+			</classpath>
+		</javac>
+		
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - -
+		PACKAGE
+	- - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="package" depends="build">
+		
+		<delete dir="${dist}" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="${dist}/mode" />
+		
+		<jar jarfile="${dist}/mode/${lib.name}.jar" basedir="${bin}"/>
+		
+		<copy todir="${dist}">
+			<fileset dir="resources/" />
+		</copy>
+		
+		<copy todir="${dist}">
+			<fileset file="lib/mode.properties" />
+		</copy>
+		
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - -
+		INSTALL
+	- - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="install" depends="package" >
+		
+		<delete dir="${processing.modes}/${lib.name}" />
+		<mkdir dir="${processing.modes}/${lib.name}" />
+		
+		<copy todir="${processing.modes}/${lib.name}">
+			<fileset dir="${dist}" />
+		</copy>
+		
+	</target>
+
+</project>
+

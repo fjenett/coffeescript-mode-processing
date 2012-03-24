@@ -1,0 +1,8 @@
+.DS_Store
+bin
+build
+dist
+
+todo.txt
+
+.svn
