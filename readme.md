@@ -11,6 +11,7 @@ Download Processing 2.0a5 or later:
 http://code.google.com/p/processing/downloads/list
 
 Download this mode and rename folder to "CoffeeScriptMode"
+https://github.com/fjenett/coffeescript-mode-processing/zipball/latest
 
 Find your sketchbook folder and make a new sub-folder called "modes"
 
