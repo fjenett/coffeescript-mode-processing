@@ -3,8 +3,7 @@
 This is a first attempt at a "contributed mode" which is a 
 system that is going to be part of Processing 2.0
 
-CoffeeScript was created by "Jeremy Ashkenas":https://github.com/jashkenas, 
-inventor of "ruby-processing":https://github.com/jashkenas/ruby-processing
+CoffeeScript was created by [Jeremy Ashkenas](https://github.com/jashkenas), inventor of [ruby-processing](https://github.com/jashkenas/ruby-processing)
 
 ***Usage***
 
