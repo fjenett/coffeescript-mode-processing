@@ -145,6 +145,15 @@ public class CoffeeScriptEditor extends ServingEditor
 		    }
 		});
 		menu.add(item);
+		
+		
+		item = new JMenuItem("CoffeeScript Mode Home");
+		item.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		      Base.openURL("https://github.com/fjenett/coffeescript-mode-processing");
+		    }
+		});
+		menu.add(item);
 
 		// item = new JMenuItem("Reference");
 		// item.addActionListener(new ActionListener() {
@@ -233,11 +242,13 @@ public class CoffeeScriptEditor extends ServingEditor
 	{
 		statusEmpty();
 
-		if ( !handleExport( false ) ) return;
-
-		startServer( getExportFolder() );
-
-		toolbar.activate(CoffeeScriptToolbar.RUN);
+		if ( !startServer( getExportFolder() ) )
+		{
+			if ( !handleExport( false ) ) return;
+			toolbar.activate(CoffeeScriptToolbar.RUN);
+		}
+		
+		// wait for callback from server ..
 	}
 	
 	public void handleStopServer () 
@@ -384,6 +395,16 @@ public class CoffeeScriptEditor extends ServingEditor
 		// TODO: promt to create one?
 		statusNotice( "You have no custom template with this sketch. Create one from the menu!" );
 	}
+  }
+
+   // -------- server callbacks -------
+
+  public void serverStarted ()
+  {
+  		super.serverStarted();
+
+		if ( !handleExport( false ) ) return;
+		toolbar.activate(CoffeeScriptToolbar.RUN);
   }
 
 	// -------- other stuff ----------
