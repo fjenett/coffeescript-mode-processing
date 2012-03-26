@@ -33,3 +33,8 @@ A simple sketch looks like this:
 	
 		@rect 20, 20, @width/2, @height/2
 
+
+***How does it work?***
+
+CoffeeScript mode is based on JavaScript mode in the soon to be released Processing 2.0 version. "Run" starts a server bound to an export folder inside your sketchs folder. It serves a generated html file containing your CS code along with Processing.js, CoffeeScript.js, jQuery and all other files to include from your sketch folder. The html file contains a short snippet of JS code that passes your CS code to the CS compiler to be converted to JS. A blank Processing.js sketch is generated and the generated JS code is mixed in with it through jQuery.extend(). Voilà ... a nice little soup of frameworks.
+
