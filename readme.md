@@ -17,7 +17,7 @@ Find your sketchbook folder and make a new sub-folder called "modes"
 
 Add "CoffeeScriptMode" to "modes", start Processing 2.0a5+
 
-... in the mode menu (to the left in the editor window) you
+... in the mode menu (to the right in the editor window) you
 now should see "CoffeeScript".
 
 A simple sketch looks like this:
