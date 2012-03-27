@@ -83,6 +83,10 @@
 			<fileset dir="${dist}" />
 		</copy>
 		
+		<copy todir="mode">
+			<fileset dir="${dist}" />
+		</copy>
+		
 	</target>
 
 </project>
