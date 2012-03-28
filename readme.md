@@ -10,15 +10,23 @@ CoffeeScript was created by [Jeremy Ashkenas](https://github.com/jashkenas), inv
 Download Processing 2.0a5 or later:
 http://code.google.com/p/processing/downloads/list
 
-Download this mode and rename folder to "CoffeeScriptMode"
+Download this latest zip:
 https://github.com/fjenett/coffeescript-mode-processing/zipball/latest
 
-Find your sketchbook folder and make a new sub-folder called "modes"
+Find your sketchbook folder and make a new sub-folder called "modes" if not already there
 
-Add "CoffeeScriptMode" to "modes", start Processing 2.0a5+
+Unzip latest and from inside that folder move "CoffeeScriptMode" to "modes", like so:
 
-... in the mode menu (to the right in the editor window) you
-now should see "CoffeeScript".
+    .. path-to ../Processing/
+        modes/
+            CoffeeScriptMode/
+                .. etc ..
+		libraries/
+		.. sketches ..
+
+Start Processing 2.0a5+
+
+... in the mode menu (to the right in the editor window) you now should see "CoffeeScript".
 
 A simple sketch looks like this:
 
