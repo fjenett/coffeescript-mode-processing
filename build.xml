@@ -15,8 +15,9 @@
 	<property name="java.target.version" 
 								value="1.5" />
 	
-	<!--property name="processing.classes" location="/Applications/Processing.app/Contents/Resources/Java/"/-->
-	<property name="processing.classes" location="/Users/fjenett/Repos/processing/processing/build/macosx/work/Processing.app/Contents/Resources/Java/"/>
+	<!-- property name="processing.classes" location="/Applications/Processing.app/Contents/Resources/Java/"/ -->
+	<!-- property name="processing.classes" location="/Users/fjenett/Repos/processing/processing/build/macosx/work/Processing.app/Contents/Resources/Java/"/ -->
+	<property name="processing.classes" location="/Users/fjenett/Downloads/Processing.app/Contents/Resources/Java/"/>
 	<property name="processing.modes" location="/Users/fjenett/Documents/Processing/modes"/>	
 
 	<path id="library-classpath">
@@ -83,7 +84,8 @@
 			<fileset dir="${dist}" />
 		</copy>
 		
-		<copy todir="mode">
+		<delete dir="CoffeeScriptMode" />
+		<copy todir="CoffeeScriptMode">
 			<fileset dir="${dist}" />
 		</copy>
 		

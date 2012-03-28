@@ -241,8 +241,19 @@ public class CoffeeScriptEditor extends ServingEditor
 	public void handleStartServer () 
 	{
 		statusEmpty();
-
-		if ( !startServer( getExportFolder() ) )
+		
+		// TOTAL SPEEDHACK HERE
+		
+		//if ( !
+		startServer( getExportFolder() );
+		// )
+		
+		try {
+			Thread.sleep( 1000 );
+		} catch ( Exception e ) {
+			// ignore
+		}
+		
 		{
 			if ( !handleExport( false ) ) return;
 			toolbar.activate(CoffeeScriptToolbar.RUN);
