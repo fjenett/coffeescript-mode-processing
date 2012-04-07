@@ -7,6 +7,8 @@ import processing.app.Base;
 import processing.app.Mode;
 import processing.app.Sketch;
 import processing.app.SketchCode;
+import processing.app.Library;
+import processing.app.SketchException;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+/**
+ *	This clearly needs a cleanup run.
+ */
 public class CoffeeScriptBuild extends JavaScriptBuild
 {	
 	public static String TEMPLATE_FOLDER_NAME = "template-coffee";
@@ -44,7 +49,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	 * Export the sketch to the default applet_js folder.  
 	 * @return success of the operation 
 	 */
-	public boolean export() throws IOException
+	public boolean export() throws IOException, SketchException
 	{
 		File exportFolder = new File(sketch.getFolder(), EXPORTED_FOLDER_NAME);
 		return build( exportFolder );
@@ -56,7 +61,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	 * @param bin the output folder for the built sketch
 	 * @return boolean whether the build was successful
 	 */
-	public boolean build ( File bin ) throws IOException
+	public boolean build ( File bin ) throws IOException, SketchException
 	{
 		// make sure the user isn't playing "hide-the-sketch-folder" again
 		sketch.ensureExistence();
@@ -112,6 +117,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			{
 				if ( s.toLowerCase().startsWith(".") ) continue;
 				if ( !s.toLowerCase().endsWith(".js") ) continue;
+				// TODO: handle .coffee addons here
 				sffList.add(s);
 			}
 			if ( sffList.size() > 0 )
@@ -128,6 +134,93 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				return false;
 			}
 		}
+		
+		// ------------------------------------------
+		// 	IMPORT LIBRARIES
+		// ------------------------------------------
+		
+		String[] matches;
+		
+		ArrayList<String> importPackages = new ArrayList<String>();
+		ArrayList<String> csImports = new ArrayList<String>();
+		String[] lines = sketch.getCode(0).getProgram().split( "\n" );
+		
+		for ( String l : lines )
+		{
+			int iIndex = l.indexOf( "import" );
+			if ( iIndex != -1 )
+			{
+				String[] iStatements = l.split(";");
+				for ( String iExpression : iStatements )
+				{
+					matches = PApplet.match( iExpression, IMPORT_REGEX );
+					if ( matches != null && matches.length >= 2 && matches[1] != null )
+					{
+						String iPackage = matches[1];
+						iPackage = iPackage.trim();
+
+						if ( iPackage.indexOf(".*") != -1 ) {
+							// de.bezier.tutti.*
+							iPackage = iPackage.replace( ".*", "" );
+						} else {
+							// de.bezier.uno.SingleClass
+							iPackage = iPackage.replaceAll( "\\.[^.]+$", "" );
+						}
+						if ( !importPackages.contains(iPackage) ) // is this a "==" or ".equals()" ?
+							importPackages.add( iPackage );
+					}
+				}
+			}
+		}
+		
+		if ( importPackages.size() > 0 )
+		{
+			File libsExport = new File( bin, "libs" );
+			if ( !libsExport.mkdir() )
+			{
+				Base.showWarning( "Error",
+				 				  "Unable to create 'libs' in export folder.",
+								  null );
+				return false;
+			}
+		}
+		
+		for ( String pack : importPackages )
+		{
+			Library lib = mode.getLibrary( pack );
+			if ( lib != null )
+			{
+				String libPath = lib.getJarPath();
+				File libJar = new File( libPath );
+				if ( libJar.exists() )
+				{
+					File libCS = new File( libJar.getParent(), libJar.getName().replace(".jar",".js") );
+					//System.out.println( libCS.getPath() );
+					if ( libCS.exists() )
+					{
+						String libCSDest = "libs" + File.separator + libCS.getName();
+						File libCSDestFile = new File( bin, libCSDest );
+						if ( libCSDestFile.exists() )
+						{
+							System.out.println( "Duplicate import!" );
+						}
+						try
+						{
+							Base.copyFile( libCS,
+										   libCSDestFile );
+							csImports.add( libCSDest );
+
+						} catch ( Exception se ) {
+							se.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		// ------------------------------------------
+		// 	GRAB WIDTH, HEIGHT FOR HTML
+		// ------------------------------------------
 
 		// get width and height
 		int wide = PApplet.DEFAULT_WIDTH;
@@ -138,9 +231,9 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		// Con: larger files, PJS/coffee needs to do it later
 		// Pro: being literate as we are in a script language.
 		String scrubbed = scrubComments( sketch.getCode(0).getProgram() );
-		String[] matches = PApplet.match( scrubbed, SIZE_REGEX );
+		matches = PApplet.match( scrubbed, SIZE_REGEX );
 		
-		if (matches != null) 
+		if ( matches != null ) 
 		{
 			try 
 	 		{
@@ -148,7 +241,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				high = Integer.parseInt(matches[2]);
 				// renderer
 
-			} catch (NumberFormatException e) {
+			} catch ( NumberFormatException e ) {
 				// if ( ((JavaScriptMode)mode).showSizeWarning ) {
 				// 		 				// found a reference to size, but it didn't seem to contain numbers
 				//  final String message =
@@ -164,7 +257,11 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			}
 			
 		}  // else no size() command found, defaults will be used
-
+		
+		// ------------------------------------------
+		// 	PREP TEMPLATE
+		// ------------------------------------------
+		
 		// final prep and write to template.
 		// getTemplateFile() is very important as it looks and preps
 		// any custom templates present in the sketch folder.
@@ -179,10 +276,17 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 
 		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
 		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
+		
 		// add a handy method to read the generated sketchID
 		String scriptFiles = "<script type=\"text/javascript\">" +
 						     "function getProcessingSketchID () { return '"+sketchID+"'; }" +
 						     "</script>\n";
+		
+		// add imports if any ...
+		for ( String importScript : csImports )
+		{
+			scriptFiles += "<script type=\"text/javascript\" src=\""+importScript+"\"></script>";
+		}
 						
 		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
 								  sketchID.substring(1).toLowerCase();
@@ -207,6 +311,10 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		templateFields.put( "coffee", coffeeCode );
 		templateFields.put( "coffeescripts", "" );
 		templateFields.put( "coffeesketch", coffeeSketchName );
+		
+		// ------------------------------------------
+		// 	WRITE / MOVE FILES
+		// ------------------------------------------
 
 		// process template replace tokens with content
 		try
