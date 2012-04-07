@@ -25,6 +25,9 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	public static final String SIZE_REGEX = 
     	"(?:^|\\s|;)@size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
 	
+	public final static String IMPORT_REGEX =
+								"^[\\s]*#[\\s]*import[\\s]+([^\\s]+)[\\s]*";
+	
 	private File binFolder;
 	private Sketch sketch;
 	private Mode mode;
@@ -113,53 +116,54 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			}
 			if ( sffList.size() > 0 )
 				sketchFolderFiles = (String[])sffList.toArray(new String[0]);
+		}
+		
+		for ( String s : sketchFolderFiles )
+		{
+			try {
+				Base.copyFile( new File(sketch.getFolder(), s), new File(bin, s) );
+			} catch ( IOException ioe ) {
+				String msg = "Unable to copy file: "+s;
+				Base.showWarning("Problem building the sketch", msg, ioe);
+				return false;
 			}
-			for ( String s : sketchFolderFiles )
-			{
-				try {
-					Base.copyFile( new File(sketch.getFolder(), s), new File(bin, s) );
-				} catch ( IOException ioe ) {
-					String msg = "Unable to copy file: "+s;
-					Base.showWarning("Problem building the sketch", msg, ioe);
-					return false;
-				}
+		}
+
+		// get width and height
+		int wide = PApplet.DEFAULT_WIDTH;
+		int high = PApplet.DEFAULT_HEIGHT;
+
+		// TODO
+		// Really scrub comments from code? 
+		// Con: larger files, PJS/coffee needs to do it later
+		// Pro: being literate as we are in a script language.
+		String scrubbed = scrubComments( sketch.getCode(0).getProgram() );
+		String[] matches = PApplet.match( scrubbed, SIZE_REGEX );
+		
+		if (matches != null) 
+		{
+			try 
+	 		{
+				wide = Integer.parseInt(matches[1]);
+				high = Integer.parseInt(matches[2]);
+				// renderer
+
+			} catch (NumberFormatException e) {
+				// if ( ((JavaScriptMode)mode).showSizeWarning ) {
+				// 		 				// found a reference to size, but it didn't seem to contain numbers
+				//  final String message =
+				//    "The size of this applet could not automatically be\n" +
+				//    "determined from your code. You'll have to edit the\n" +
+				//    "HTML file to set the size of the applet.\n" +
+				//    "Use only numeric values (not variables) for the size()\n" +
+				//    "command. See the size() reference for an explanation.";
+				//  Base.showWarning("Could not find applet size", message, null);
+				// // warn only once ..
+				// ((JavaScriptMode)mode).showSizeWarning = false;
+				//}
 			}
-
-			// get width and height
-			int wide = PApplet.DEFAULT_WIDTH;
-			int high = PApplet.DEFAULT_HEIGHT;
-
-			// TODO
-			// Really scrub comments from code? 
-			// Con: larger files, PJS/coffee needs to do it later
-			// Pro: being literate as we are in a script language.
-			String scrubbed = scrubComments( sketch.getCode(0).getProgram() );
-			String[] matches = PApplet.match( scrubbed, SIZE_REGEX );
 			
-			if (matches != null) 
-			{
-				try 
-		 		{
-					wide = Integer.parseInt(matches[1]);
-					high = Integer.parseInt(matches[2]);
-					// renderer
-
-				} catch (NumberFormatException e) {
-					// if ( ((JavaScriptMode)mode).showSizeWarning ) {
-					// 		 				// found a reference to size, but it didn't seem to contain numbers
-					//  final String message =
-					//    "The size of this applet could not automatically be\n" +
-					//    "determined from your code. You'll have to edit the\n" +
-					//    "HTML file to set the size of the applet.\n" +
-					//    "Use only numeric values (not variables) for the size()\n" +
-					//    "command. See the size() reference for an explanation.";
-					//  Base.showWarning("Could not find applet size", message, null);
-					// // warn only once ..
-					// ((JavaScriptMode)mode).showSizeWarning = false;
-					//}
-				}
-				
-			}  // else no size() command found, defaults will be used
+		}  // else no size() command found, defaults will be used
 
 		// final prep and write to template.
 		// getTemplateFile() is very important as it looks and preps

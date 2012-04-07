@@ -1,11 +1,11 @@
 <project name="BezierCoffeeScriptMode" default="install" basedir="./">
 
-	<!-- ++++++++++++++++++++++++++++++++++++++++++
+	<description>
 	
 		CoffeeScript mode.
 		http://coffeescript.org/
 	
-	+++++++++++++++++++++++++++++++++++++++++++ -->
+	</description>
 	
 	<property name="src" 		value="src" />
 	<property name="build" 		value="build" />
