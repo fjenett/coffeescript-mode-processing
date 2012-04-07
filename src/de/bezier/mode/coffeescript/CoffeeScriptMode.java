@@ -2,6 +2,9 @@ package de.bezier.mode.coffeescript;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.BufferedReader;
+
+import java.util.HashMap;
 
 import processing.mode.javascript.JavaScriptMode;
 
@@ -10,6 +13,13 @@ import processing.app.Editor;
 import processing.app.EditorState;
 import processing.app.Sketch;
 import processing.app.SketchException;
+
+import processing.app.syntax.PdeKeywords;
+import processing.app.syntax.TokenMarker;
+
+import processing.core.PApplet;
+
+import de.bezier.mode.coffee.syntax.CSTokenMarker;
 
 /**
  *	CoffeeScript mode for Processing IDE 2.0alpha5 or later.
@@ -22,6 +32,7 @@ import processing.app.SketchException;
 public class CoffeeScriptMode extends JavaScriptMode
 {
 	private CoffeeScriptEditor csEditor;
+	private CSTokenMarker coffeeTokenMarker;
 	
 	/**
 	 *	Constructor called by Processing IDE to start this mode.
@@ -29,6 +40,36 @@ public class CoffeeScriptMode extends JavaScriptMode
 	public CoffeeScriptMode ( Base base, File folder )
 	{
 		super( base, folder );
+		
+		coffeeTokenMarker = new CSTokenMarker();
+		
+		try {
+			loadAdditionalKeywords( 
+				new File( base.getContentFile("modes/java"), "keywords.txt" ),
+				coffeeTokenMarker
+			);
+			loadAdditionalKeywords( 
+				new File( base.getContentFile("modes/javascript"), "keywords.txt" ),
+				coffeeTokenMarker
+			);
+			loadAdditionalKeywords( 
+				new File( folder, "keywords.txt" ),
+				coffeeTokenMarker
+			);
+		} catch (IOException e) {
+	    	Base.showError( "Problem loading keywords",
+	                   		"Could not load keywords.txt, please re-install CoffeeScript mode.", e);
+		}
+	}
+	
+	/**
+	 *	Called from editor for CS code documents
+	 */
+	public TokenMarker getCSTokenMarker () 
+	{
+		if ( coffeeTokenMarker == null )
+			coffeeTokenMarker = new CSTokenMarker();
+		return coffeeTokenMarker;
 	}
 	
 	/**

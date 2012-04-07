@@ -34,7 +34,7 @@ public class CoffeeScriptEditor extends ServingEditor
 		
 		processing.mode.java.PdeKeyListener listener = new processing.mode.java.PdeKeyListener( this, textarea );
 
-		csMode = (CoffeeScriptMode) mode;
+		csMode = (CoffeeScriptMode)mode;
 	}
 	
 	// ------------------------------------------
@@ -50,10 +50,17 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	protected void setCode ( SketchCode code ) 
 	{
-		System.out.println( "code changed" );
-		System.out.println( code );
-		
+		SyntaxDocument document = (SyntaxDocument)code.getDocument();
 		super.setCode( code );
+		if ( document == null ) 
+		{	
+			if ( code.getExtension().equals("pde") || 
+				 code.getExtension().equals("coffee") )
+			{
+				document = (SyntaxDocument)code.getDocument();
+				document.setTokenMarker( ((CoffeeScriptMode)mode).getCSTokenMarker() );
+			}
+		}
 	}
 	
 	/**
