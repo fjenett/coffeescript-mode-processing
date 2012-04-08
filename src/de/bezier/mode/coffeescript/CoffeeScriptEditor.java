@@ -247,7 +247,7 @@ public class CoffeeScriptEditor extends ServingEditor
 				menu.add(item);
 			}
 
-			return menu;
+		return menu;
 	}
 
 	/**

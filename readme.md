@@ -50,11 +50,11 @@ CoffeeScript mode is based on JavaScript mode in the soon to be released Process
 
 Contributed modes are not officially introduced in Processing yet and so things might change in the future. Consider this experimental.
 
-This is rather a speed project, no proper syntax coloring, no help, no catching errors before export. 
+I'm not all satisfied with the experience at the moment ... having to type "@" before each and every Processing variable or method kinda ruins the functionalism of CoffeeScript to me.
 
 ***Specials***
 
-Import statements are supported for JavaScript since Processing 2.0alpha5, so they are now supported in CoffeeScript mode as well. They are written as comments to not confuse the coffeescript compiler:
+Import statements are supported for JavaScript since Processing 2.0alpha5, so they are now supported in CoffeeScript mode as well. They are written as comments to not confuse the CoffeeScript compiler:
 
 	#import de.bezier.guido.*
 
