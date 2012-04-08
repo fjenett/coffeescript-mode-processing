@@ -3,6 +3,7 @@
 
 or	KEYWORD1
 and	KEYWORD1
+not	KEYWORD1
 then	KEYWORD1
 when	KEYWORD1
 isnt	KEYWORD1
@@ -14,3 +15,4 @@ no	KEYWORD1
 off	KEYWORD1
 unless	KEYWORD1
 extends	KEYWORD1
+by	KEYWORD1
