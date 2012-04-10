@@ -24,6 +24,12 @@ import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *	This is the actual editor implementation, one editor is opened per sketch.
+ *
+ *	@see <a href="http://code.google.com/p/processing/source/browse/trunk/processing/app/src/processing/mode/javascript/ServingEditor.java">processing.mode.javascript.ServingEditor.java</a>
+ *	@see <a href="http://code.google.com/p/processing/source/browse/trunk/processing/app/src/processing/app/Editor.java">processing.app.Editor.java</a>
+ */
 public class CoffeeScriptEditor extends ServingEditor
 {	
 	CoffeeScriptMode csMode;
@@ -44,7 +50,7 @@ public class CoffeeScriptEditor extends ServingEditor
 	/**
 	 *	Overriding Editor.setCode()
 	 *
-	 *	Called when editor switches between tabs.
+	 *	Called when editor switches between tabs. Handles different syntax coloring per code types.
 	 *
 	 *	@see processing.app.Editor#setCode(SketchCode code)
 	 */
