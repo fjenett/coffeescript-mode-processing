@@ -110,7 +110,7 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	public JMenu buildSketchMenu () 
 	{
-		JMenuItem startServerItem = Base.newJMenuItem("Start Server", 'R');
+		JMenuItem startServerItem = Base.newJMenuItem("Run in Browser", 'R');
 		startServerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					handleStartServer();
@@ -124,38 +124,17 @@ public class CoffeeScriptEditor extends ServingEditor
 				}
 			});
 
-		JMenuItem stopServerItem = new JMenuItem("Stop Server");
+		JMenuItem stopServerItem = new JMenuItem("Stop");
 		stopServerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					handleStopServer();
 				}
 			});
 
-		JMenuItem copyServerAddressItem = new JMenuItem("Copy Server Address");
-		copyServerAddressItem.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
-			handleCopyServerAddress();
-		}
-		});
-		// copyServerAddressItem.getInputMap().put(
-		// 	javax.swing.KeyStroke.getKeyStroke('C', java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.META_MASK ),
-		// 	new AbstractAction () {
-		// 		public void actionPerformed ( ActionEvent e ) {
-		// 			handleCopyServerAddress();
-		// 		}
-		// 	}
-		// );
-
-		JMenuItem setServerPortItem = new JMenuItem("Set Server Port");
-		setServerPortItem.addActionListener(new ActionListener(){
-		public void actionPerformed (ActionEvent e) {
-			handleSetServerPort();
-		}
-		});
-
 		return buildSketchMenu(new JMenuItem[] {
-		startServerItem, openInBrowserItem, stopServerItem, 
-		copyServerAddressItem, setServerPortItem
+			startServerItem, 
+			openInBrowserItem, 
+			stopServerItem
 		});
 	}
 	
@@ -166,8 +145,26 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	public JMenu buildModeMenu() 
 	{
-			JMenu menu = new JMenu("CoffeeScript");    
-			JMenuItem item;
+		JMenu menu = new JMenu("CoffeeScript");    
+		JMenuItem item;
+		
+		JMenuItem copyServerAddressItem = new JMenuItem("Copy Server Address");
+		copyServerAddressItem.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			handleCopyServerAddress();
+		}
+		});
+		menu.add( copyServerAddressItem );
+
+		JMenuItem setServerPortItem = new JMenuItem("Set Server Port");
+		setServerPortItem.addActionListener(new ActionListener(){
+		public void actionPerformed (ActionEvent e) {
+			handleSetServerPort();
+		}
+		});
+		menu.add( copyServerAddressItem );
+		
+		menu.addSeparator();
 
 		item = new JMenuItem("Start Custom Template");
 		item.addActionListener(new ActionListener() {
@@ -185,7 +182,7 @@ public class CoffeeScriptEditor extends ServingEditor
 		});
 		menu.add(item);
 
-			return menu;
+		return menu;
 	}
 
 	/**
