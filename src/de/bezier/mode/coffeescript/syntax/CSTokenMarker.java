@@ -99,27 +99,21 @@ public class CSTokenMarker extends PdeKeywords
 			   			case '#':
 					    	backslash = false;
 					        doKeyword(line, i, c);
-					        if (mlength - i > 1) 
+					        addToken(i - lastOffset, token);
+					        if ( mlength-i > 2 && array[i1] == '#' && array[i+2] == '#' ) 
 							{
-					        	switch (array[i1]) 
-								{
-					            	case '#':
-					              		addToken(i - lastOffset, token);
-					              		lastOffset = lastKeyword = i;
-					              		if ( mlength - i > 2 && array[i+2] == '#' )
-					                		token = Token.COMMENT2;
-					              		else
-					                		token = Token.COMMENT1;
-					              		break;
-					            	default:
-					              		addToken(i - lastOffset, token);
-					              		addToken(mlength - i, Token.COMMENT1);
-					              		lastOffset = lastKeyword = mlength;
-					              		break loop;
-					            }
-					          	i++;
+								token = Token.COMMENT2;
+						        addToken(mlength - i, token);
 					        }
-					    	break;
+							else
+							{	
+								token = Token.COMMENT1;
+						        addToken(mlength - i, token);
+					            token = Token.NULL;
+							}
+			              	lastOffset = lastKeyword = mlength;
+							i = mlength;
+		              		break loop;
 			   			default:
 			     			backslash = false;
 			     			if (!Character.isLetterOrDigit(c) && c != '_')
@@ -130,15 +124,12 @@ public class CSTokenMarker extends PdeKeywords
 			 	case Token.COMMENT1:
 				case Token.COMMENT2:
 			   		backslash = false;
-			   		if ( c == '#' && mlength - i > 2 ) 
+			   		if ( c == '#' ) 
 					{
-			        	if ( array[i1] == '#' && array[i+2] == '#' ) 
-						{
-			            	i++;
-			            	addToken((i + 2) - lastOffset, token);
-			            	token = Token.NULL;
-			            	lastOffset = lastKeyword = i + 2;
-			        	}
+						addToken(mlength - i, token);
+			            token = Token.NULL;
+						i = mlength;
+			            lastOffset = lastKeyword = mlength;
 			        }
 				 	break;
 				case Token.LITERAL1:
