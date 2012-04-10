@@ -14,10 +14,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.*;
+import java.io.FileInputStream;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+
+import javax.script.*;
 
 /**
  *	This clearly needs a cleanup run.
@@ -46,7 +50,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	}
 	
 	/** 
-	 * Export the sketch to the default applet_js folder.  
+	 * Export the sketch to the default web-export-coffee folder.  
 	 * @return success of the operation 
 	 */
 	public boolean export() throws IOException, SketchException
@@ -73,26 +77,34 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			Base.removeDescendants(bin);
 		}
 		
-		// not much preprocessing to do ..
-		//preprocess(bin);
-		
 		StringBuffer bigCode = new StringBuffer();
-		String modeExt = mode.getDefaultExtension();
+		String modeExt = mode.getDefaultExtension(); // only loads the .pde files
 		for (SketchCode sc : sketch.getCode())
 		{
 			if (sc.isExtension(modeExt)) 
 			{
 				String prog = sc.getProgram();
 				String[] progLns = prog.split("\n");
-				for ( String l : progLns ) {
+				// TODO:
+				// as we are adding a class around the code right shift every line by one tab
+				// this is potantially problematic with multiline strings ..
+				for ( String l : progLns ) 
+				{
 					bigCode.append( "\t" + l + "\n" );
 				}
 				bigCode.append("\n");
 			}
 		}
 
-		// move the data files, copies contents of sketch/data/ to applet_js/
-		if (sketch.hasDataFolder()) 
+		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
+		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
+
+		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
+								  sketchID.substring(1).toLowerCase();
+		String coffeeCode = "\n" + "class " + coffeeSketchName + "\n" + bigCode.toString();
+		
+		// move the data files, copies contents of sketch/data/ to web-export-coffee/
+		if ( sketch.hasDataFolder() ) 
 		{
 			try {
 				Base.copyDir(sketch.getDataFolder(), bin);
@@ -100,7 +112,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			} catch (IOException e) {
 				final String msg = "An exception occured while trying to copy the data folder. " + 
 								   "You may have to manually move the contents of sketch/data to " +
-								   "the applet_js/ folder. Processing.js doesn't look for a data " +
+								   "the web-export-coffee/ folder. Processing.js doesn't look for a data " +
 								   "folder, so lump them together.";
 				Base.showWarning("Problem building the sketch", msg, e);
 			}
@@ -143,7 +155,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		
 		ArrayList<String> importPackages = new ArrayList<String>();
 		ArrayList<String> csImports = new ArrayList<String>();
-		String[] lines = sketch.getCode(0).getProgram().split( "\n" );
+		String[] lines = bigCode.toString().split( "\n" );
 		
 		for ( String l : lines )
 		{
@@ -217,6 +229,52 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				}
 			}
 		}
+
+		// ------------------------------------------
+		// 	PRE-COMPILE
+		// ------------------------------------------
+		
+		// finally, add Processing.js
+		String[] needed = new String[]{
+			"processing.js", "coffee-script.js", "jquery.js"
+		};
+		
+		// ScriptEngineManager mgr = new ScriptEngineManager();
+		// ScriptEngine jsEngine = mgr.getEngineByName("JavaScript");
+		// 
+		// for ( String[] l : new String[][]{sketchFolderFiles,csImports.toArray(new String[0])} )
+		// {	
+		// 	for ( String s : l )
+		// 	{
+		// 		try {
+		// 			Reader reader = new FileReader( new File(bin, s) );
+		// 			jsEngine.eval(reader);
+		// 		} catch ( Exception e ) {
+		// 			System.err.println( "Trouble evaluating " + s );
+		// 			e.printStackTrace();
+		// 		}
+		// 	}
+		// }
+		// 
+		// try {
+		// 	Reader reader = new FileReader( sketch.getMode().getContentFile( 
+		// 		TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" ) );
+		// 	jsEngine.eval(reader);
+		// } catch ( Exception e ) {	
+		// 	System.err.println( "Trouble evaluating " + "coffee-script.js" );
+		// 	e.printStackTrace();
+		// }
+		// 
+		// try {
+		// 	Invocable invocableEngine = (Invocable) jsEngine;
+		//     String output = (String) invocableEngine.invokeFunction( 
+		// 						"CoffeeScript.compile",
+		// 						bigCode.toString() );
+		//         } catch ( NoSuchMethodException ex ) {
+		//             ex.printStackTrace();
+		//         } catch ( ScriptException ex ) {
+		//             ex.printStackTrace();
+		//         }
 		
 		// ------------------------------------------
 		// 	GRAB WIDTH, HEIGHT FOR HTML
@@ -273,9 +331,6 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		templateFields.put( "height", 		String.valueOf(high) );
 		templateFields.put( "sketch", 		sketch.getName() );
 		templateFields.put( "description", 	getSketchDescription() );
-
-		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
-		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
 		
 		// add a handy method to read the generated sketchID
 		String scriptFiles = "<script type=\"text/javascript\">" +
@@ -287,10 +342,6 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		{
 			scriptFiles += "<script type=\"text/javascript\" src=\""+importScript+"\"></script>";
 		}
-						
-		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
-								  sketchID.substring(1).toLowerCase();
-		String coffeeCode = "\n" + "class " + coffeeSketchName + "\n" + bigCode.toString();
 
 		// main .pde file first
 		String sourceFiles = "<a href=\"" + sketch.getName() + ".pde\">" + sketch.getName() + "</a> ";
@@ -328,17 +379,11 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			return false;
 		}
 
-		// finally, add Processing.js
-		String[] needed = new String[]{
-			"processing.js", "coffee-script.js", "jquery.js"
-		};
-		try 
-		{
+		try {
 			for ( String n : needed ) {
-				Base.copyFile( sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + "/" + n ), 
+				Base.copyFile( sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + File.separator + n ), 
 						   	   new File( bin, n ) );
 			}
-
 		} catch (IOException ioe) {
 			final String msg = "There was a problem copying one or more files to the " +
 								 "build folder. You will have to manually add " + 
@@ -384,7 +429,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	/**
 	 *  Find and return the template HTML file to use. This also checks for custom
 	 *  templates that might be living in the sketch folder. If such a "template_js"
-	 *  folder exists then it's contents will be copied over to "applet_js" and
+	 *  folder exists then it's contents will be copied over to "web-export-coffee" and
 	 *  it's template.html will be used as template.
 	 */
 	private File getTemplateFile ()
@@ -398,7 +443,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			File exportFolder = new File( sketchFolder, EXPORTED_FOLDER_NAME );
 
 			try {
-				//TODO: this is potentially dangerous as it might override files in applet_js 
+				//TODO: this is potentially dangerous as it might override files in web-export-coffee 
 				Base.copyDir( customTemplateFolder, exportFolder );
 				if ( !(new File( exportFolder, TEMPLATE_FILE_NAME )).delete() )
 				{

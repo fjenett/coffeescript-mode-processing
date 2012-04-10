@@ -158,7 +158,8 @@ public class CSTokenMarker extends PdeKeywords
 		if (token == Token.NULL)
 			doKeyword(line, mlength, '\0');
 
-		switch (token) {
+		switch (token) 
+		{
 			case Token.LITERAL1:
 			case Token.LITERAL2:
 		 		addToken(mlength - lastOffset, Token.INVALID);
@@ -182,7 +183,7 @@ public class CSTokenMarker extends PdeKeywords
     	int i1 = i + 1;
 
     	int len = i - lastKeyword;
-    	byte id = keywordColoring.lookup(line, lastKeyword, len);
+    	byte id = keywordColoring.lookup( line, lastKeyword, len );
     	if (id != Token.NULL) {
       		if (lastKeyword != lastOffset)
         		addToken(lastKeyword - lastOffset, Token.NULL);

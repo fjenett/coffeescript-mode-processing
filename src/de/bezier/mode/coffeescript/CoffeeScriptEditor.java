@@ -229,7 +229,7 @@ public class CoffeeScriptEditor extends ServingEditor
 		//   }
 		// });
 		// menu.add(item);
-		// 
+		
 		// item = Base.newJMenuItemShift("Find in Reference", 'F');
 		// item.addActionListener(new ActionListener() {
 		//   public void actionPerformed(ActionEvent e) {
@@ -545,8 +545,8 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	protected File getExportFolder ()
 	{
-			return new File( getSketch().getFolder(),
-		 				 CoffeeScriptBuild.EXPORTED_FOLDER_NAME );
+		return new File( getSketch().getFolder(),
+						 CoffeeScriptBuild.EXPORTED_FOLDER_NAME );
 	}
 
 	/**
@@ -554,7 +554,7 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	protected File getCustomTemplateFolder ()
 	{
-			return new File( getSketch().getFolder(),
+		return new File( getSketch().getFolder(),
 		 				 CoffeeScriptBuild.TEMPLATE_FOLDER_NAME );
 	}
 }
