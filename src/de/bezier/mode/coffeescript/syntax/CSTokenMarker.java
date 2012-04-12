@@ -1,4 +1,6 @@
-package de.bezier.mode.coffee.syntax;
+package de.bezier.mode.coffeescript.syntax;
+
+import processing.app.Preferences;
 
 import processing.app.syntax.PdeKeywords;
 import processing.app.syntax.KeywordMap;
@@ -6,15 +8,23 @@ import processing.app.syntax.Token;
 
 import javax.swing.text.Segment;
 
+/**
+ *	This is a simple tokenizer used for syntax highlighting.
+ *
+ *	@see <a href="http://code.google.com/p/processing/source/browse/trunk/processing/app/src/processing/app/syntax/TokenMarker.java">TokenMarker.java</a>
+ */
 public class CSTokenMarker extends PdeKeywords
 {
 	private KeywordMap keywordColoring;
 	private int lastOffset;
   	private int lastKeyword;
 
+	private int tabDepth;
+	private boolean inClass;
+
 	public CSTokenMarker ()
 	{
-		keywordColoring = new KeywordMap(false);
+		keywordColoring = new KeywordMap( false );
 	}
 	
 	/**
@@ -23,9 +33,9 @@ public class CSTokenMarker extends PdeKeywords
      */
 	public void addColoring ( String keyword, String coloring ) 
 	{
-    	if (keywordColoring == null) 
+    	if ( keywordColoring == null ) 
 		{
-    		keywordColoring = new KeywordMap(false);
+    		keywordColoring = new CSKeywordMap( false );
     	}
     	// text will be KEYWORD or LITERAL
     	boolean isKey = (coloring.charAt(0) == 'K');
@@ -33,6 +43,9 @@ public class CSTokenMarker extends PdeKeywords
     	// KEYWORD1 -> 0, KEYWORD2 -> 1, etc
     	int num = coloring.charAt(coloring.length() - 1) - '1';
     	byte id = (byte) ((isKey ? Token.KEYWORD1 : Token.LITERAL1) + num);
+		
+		//System.out.println( keyword + " " + id );
+
     	keywordColoring.add( keyword, id );
   	}
 
@@ -47,15 +60,32 @@ public class CSTokenMarker extends PdeKeywords
 		lastKeyword = offset;
 		int mlength = line.count + offset;
 		boolean backslash = false;
-
-		loop: for (int i = offset; i < mlength; i++) {
+		
+		// inClass = false;
+		// tabDepth = 0;
+		
+		loop: for ( int i = offset; i < mlength; i++ ) 
+		{
 			int i1 = (i + 1);
 			
 			char c = array[i];
-			if (c == '\\') {
+			if (c == '\\') 
+			{
 				backslash = !backslash;
 			 	continue;
 			}
+			
+			// if ( i == offset ) // line begin?
+			// {
+			// 	for ( int k = i; k < mlength; k++ )
+			// 	{
+			// 		char m = array[k];
+			// 		if ( m != ' ' ) break;
+			// 		tabDepth++;
+			// 	}
+			// 	tabDepth /= Preferences.getInteger( "editor.tabs.size" );
+			// }
+			// if ( tabDepth == 0 ) inClass = false;
 			
 			switch (token) 
 			{
@@ -86,7 +116,8 @@ public class CSTokenMarker extends PdeKeywords
 								lastOffset = lastKeyword = i;
 			     			}
 			     			break;
-			   			case ':':
+						// TODO: change to token for methods?
+			   			/*case ':':
 			     			if (lastKeyword == offset) {
 			       				if (doKeyword(line, i, c))
 			         				break;
@@ -95,7 +126,7 @@ public class CSTokenMarker extends PdeKeywords
 			       				lastOffset = lastKeyword = i1;
 			     			} else if (doKeyword(line, i, c))
 			       				break;
-			     			break;
+			     			break;*/
 			   			case '#':
 					    	backslash = false;
 					        doKeyword(line, i, c);
@@ -175,16 +206,38 @@ public class CSTokenMarker extends PdeKeywords
 		 		addToken(mlength - lastOffset, token);
 		 		break;
 		}
+		
 		return token;
 	}
 	
-	private boolean doKeyword( Segment line, int i, char c ) 
+	private boolean doKeyword ( Segment line, int i, char c ) 
 	{
     	int i1 = i + 1;
 
     	int len = i - lastKeyword;
     	byte id = keywordColoring.lookup( line, lastKeyword, len );
-    	if (id != Token.NULL) {
+
+		if ( id == 10 && tabDepth == 0 ) id = 7; // fix function names
+		
+		// if ( len > 0 )
+		// {
+		// 	char[] sub = new char[len];
+		// 	System.arraycopy( line.array, lastKeyword, sub, 0, len );
+		// 	String kw = new String( sub );
+		// 	
+		// 	if ( inClass && tabDepth > 0 && id == 7 )
+		// 		id = 0;
+		// 	
+		// 	if ( !inClass && kw.equals("class") ) 
+		// 	{
+		// 		inClass = true;
+		// 	}
+		// 	
+		// 	System.out.println( kw + " " + id + " " + tabDepth + " " + (inClass ? "Y" : "N") );
+		// }
+		
+    	if ( id != Token.NULL ) 
+		{
       		if (lastKeyword != lastOffset)
         		addToken(lastKeyword - lastOffset, Token.NULL);
       		addToken(len, id);

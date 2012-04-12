@@ -19,7 +19,7 @@ import processing.app.syntax.TokenMarker;
 
 import processing.core.PApplet;
 
-import de.bezier.mode.coffee.syntax.CSTokenMarker;
+import de.bezier.mode.coffeescript.syntax.CSTokenMarker;
 
 /**
  *	CoffeeScript mode for Processing IDE 2.0alpha5 or later.
