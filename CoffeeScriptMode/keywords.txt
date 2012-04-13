@@ -16,3 +16,7 @@ off	KEYWORD1
 unless	KEYWORD1
 extends	KEYWORD1
 by	KEYWORD1
+
+isMousePressed	KEYWORD5
+isKeyPressed	KEYWORD5
+currentFrameRate	KEYWORD5

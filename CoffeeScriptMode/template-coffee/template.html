@@ -84,10 +84,13 @@
 			try { codeJS = CoffeeScript.compile( codeCoffee, {bare: true} ); } catch ( e ) { alert(e); }
 			var codePJS = '(function(){' + "\n" + 
 					      codeJS + "\n" + 
-						  'return new Processing(' + 
+						  'var s = new Processing(' + 
 						  	'document.getElementById("@@id@@"),' + 
 							'function(processing){jQuery.extend(processing,new @@coffeesketch@@());}' + 
 						  ');' + "\n" + 
+					      's[\'isMousePressed\'] = s.__MousePressed;' + "\n" + 
+						  's[\'isKeyPressed\'] = s.__keyPressed;' + "\n" + 
+						  's[\'currentFrameRate\'] = s.__frameRate; ' + "\n" +
 						  '})();';
 			var sketchInstance = null;
 			try { sketchInstance = eval( codePJS ); } catch ( e2 ) { alert(e2); }
