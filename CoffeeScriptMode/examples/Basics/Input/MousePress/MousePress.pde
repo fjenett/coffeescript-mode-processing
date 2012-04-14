@@ -15,7 +15,7 @@ setup: ->
 
 draw: ->
     
-    if @isMousePressed
+    if @__mousePressed
         @stroke 255
     else
         @stroke 0

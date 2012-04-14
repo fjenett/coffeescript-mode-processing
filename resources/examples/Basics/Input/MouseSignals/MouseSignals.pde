@@ -32,17 +32,17 @@ draw: ->
     @xvals[@width-1] = @mouseX 
     @yvals[@width-1] = @mouseY
     
-    @bvals[@width-1] = if ( @mousePressed ) then 0 else 255
+    @bvals[@width-1] = if ( @__mousePressed ) then 0 else 255
     
-    @fill(255)
+    @fill 255
     @noStroke()
-    @rect(0, @height/3, @width, @height/3+1)
+    @rect 0, @height/3, @width, @height/3+1
 
     for i in [1..@width]
-        @stroke(255)
-        @point(i, @xvals[i]/3)
-        @stroke(0)
-        @point(i, @height/3+@yvals[i]/3)
-        @stroke(255)
-        @line(i, 2*@height/3+@bvals[i]/3, i, (2*@height/3+@bvals[i-1]/3))
+        @stroke 255
+        @point i, @xvals[i]/3
+        @stroke 0
+        @point i, @height/3+@yvals[i]/3
+        @stroke 255
+        @line i, 2*@height/3+@bvals[i]/3, i, (2*@height/3+@bvals[i-1]/3)
     
