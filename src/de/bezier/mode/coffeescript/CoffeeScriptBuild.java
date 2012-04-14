@@ -1,5 +1,7 @@
 package de.bezier.mode.coffeescript;
 
+import de.bezier.mode.coffeescript.compiler.*;
+
 import processing.core.PApplet;
 import processing.mode.javascript.JavaScriptBuild;
 
@@ -74,7 +76,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 
 		if ( bin.exists() ) 
 		{    
-			Base.removeDescendants(bin);
+			Base.removeDescendants( bin );
 		}
 		
 		StringBuffer bigCode = new StringBuffer();
@@ -102,6 +104,22 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
 								  sketchID.substring(1).toLowerCase();
 		String coffeeCode = "\n" + "class " + coffeeSketchName + "\n" + bigCode.toString();
+		
+		// ------------------------------------------
+		// 	PRE-COMPILE
+		// ------------------------------------------
+		
+		File cpmlr = sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" );
+		String res = CSCompiler.compile( 
+			cpmlr, 
+			coffeeCode, 
+			new File( bin, sketch.getName()+"-compiled.js" )
+		);
+		if ( res == null ) return false;
+		
+		// ------------------------------------------
+		// 	ADD FILES
+		// ------------------------------------------
 		
 		// move the data files, copies contents of sketch/data/ to web-export-coffee/
 		if ( sketch.hasDataFolder() ) 

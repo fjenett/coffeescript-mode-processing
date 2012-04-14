@@ -79,8 +79,8 @@
 					}
 				);
 				p5['isMousePressed'] = 	 function(){ return p5.__mousePressed; }; 
-				p5['isKeyPressed'] = 	 function(){ return p5.__keyPressed; }; 
-				p5['currentFrameRate'] = function(){ return p5.__frameRate; };
+				p5['isKeyPressed'] = 	 function(){ return p5.__keyPressed;   }; 
+				p5['currentFrameRate'] = function(){ return p5.__frameRate;    };
 			})();
 		</script>
 		<script type="text/javascript">
@@ -95,13 +95,13 @@
 		jQuery(document).ready(function(){
 			var codeCoffee = jQuery('script[type="text/coffeescript-processing"]').text();
 			var codeJS = "";
-			try { codeJS = CoffeeScript.compile( codeCoffee, {bare: true} ); } catch ( e ) { alert(e); }
+			try { codeJS = CoffeeScript.compile( codeCoffee, {bare: true} ); } catch ( e ) { alert(e); return; }
 			// uncomment to inspect the generated code:
 			// console.log( codeJS );
 			var codePJS = jQuery('#cs-p5-template').text();
 			codePJS = codePJS.replace( "//COMPILED-COFFEESCRIPT-CODE//", codeJS );
 			var sketchInstance = null;
-			try { sketchInstance = eval( codePJS ); } catch ( e2 ) { alert(e2); }
+			try { sketchInstance = eval( codePJS ); } catch ( e2 ) { alert(e2); return; }
 		});
 		</script>
 	</body>

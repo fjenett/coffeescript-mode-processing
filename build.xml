@@ -25,6 +25,9 @@
 			<include name="core.jar" />
 			<include name="pde.jar" />
 		</fileset>
+		<fileset dir="lib" >
+			<include name="js.jar" />
+		</fileset>
 	</path>
 	
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
@@ -61,6 +64,12 @@
 		<mkdir dir="${dist}/mode" />
 		
 		<jar jarfile="${dist}/mode/${lib.name}.jar" basedir="${bin}"/>
+		<!--zip destfile="${dist}/mode/${lib.name}.jar" excludes="**/*.MF">
+		    <zipgroupfileset dir="lib" includes="*.jar" />
+		</zip-->
+		<copy todir="${dist}/mode">
+			<fileset file="lib/js.jar" />
+		</copy>
 		
 		<copy todir="${dist}">
 			<fileset dir="resources/" />

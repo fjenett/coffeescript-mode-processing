@@ -2,7 +2,11 @@
 Mouse Press. 
 
 Move the mouse to position the shape. 
-Press the mouse button to invert the color. 
+Press the mouse button to invert the color.
+
+In CoffeeScript the variable "mousePressed" becomes
+the function "isMousePressed()" which returns the
+exact same value.
 ###
 
 setup: ->
@@ -15,7 +19,7 @@ setup: ->
 
 draw: ->
     
-    if @__mousePressed
+    if @isMousePressed()
         @stroke 255
     else
         @stroke 0
