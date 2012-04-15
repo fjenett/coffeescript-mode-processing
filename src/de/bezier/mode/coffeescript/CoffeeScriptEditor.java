@@ -330,6 +330,7 @@ public class CoffeeScriptEditor extends ServingEditor
 		if ( !startServer(getExportFolder()) )
 		{
 			if ( !handleExport( false ) ) return;
+			
 			toolbar.activate(CoffeeScriptToolbar.RUN);
 		}
 		
@@ -457,18 +458,18 @@ public class CoffeeScriptEditor extends ServingEditor
 		{
 			handleSave();
 	 		statusEmpty();
-	 		handleStartServer();
+			if ( serverRunning() ) handleStartServer();
 		} 
 		else 
 		{
 			SwingUtilities.invokeLater(new Runnable() 
 			{
-					public void run() 
-					{
-						handleSave();
-						statusEmpty();
-			 			handleStartServer();
-					}
+				public void run() 
+				{
+					handleSave();
+					statusEmpty();
+					if ( serverRunning() ) handleStartServer();
+				}
 			});
 		}
 		return true;

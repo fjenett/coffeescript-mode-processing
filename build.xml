@@ -2,7 +2,10 @@
 
 	<description>
 	
-		CoffeeScript mode.
+		CoffeeScript mode:
+		https://github.com/fjenett/coffeescript-mode-processing
+		
+		CoffeeScript is at:
 		http://coffeescript.org/
 	
 	</description>
@@ -11,6 +14,7 @@
 	<property name="build" 		value="build" />
 	<property name="bin" 		value="bin" />
 	<property name="dist" 		value="dist" />
+	<property name="release" 	value="0.0.1" />
 	<property name="lib.name" 	value="CoffeeScriptMode" />
 	<property name="java.target.version" 
 								value="1.5" />
@@ -41,6 +45,8 @@
 		BUILD
 	- - - - - - - - - - - - - - - - - - - - - - - -->
 	<target name="build">
+		
+		<buildnumber file="lib/build.number"/>
 		
 		<mkdir dir="${build}" />
 		<delete dir="${bin}" />
@@ -75,9 +81,10 @@
 			<fileset dir="resources/" />
 		</copy>
 		
-		<copy todir="${dist}">
-			<fileset file="lib/mode.properties" />
-		</copy>
+		<replaceregexp file="${dist}/mode.properties" flags="g"
+  					   match="@@version@@" replace="${build.number}" />
+		<replaceregexp file="${dist}/mode.properties" flags="g"
+  					   match="@@pretty-version@@" replace="${release}" />
 		
 	</target>
 	
