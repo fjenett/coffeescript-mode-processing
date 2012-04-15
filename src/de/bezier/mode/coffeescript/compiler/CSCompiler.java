@@ -5,6 +5,14 @@ import org.mozilla.javascript.*;
 
 /**
  *	This is a Rhino based compiler for .coffee to .js conversion.
+ *
+ *	These provided help:
+ *	ScriptEngine in Java 1.6:
+ *	https://github.com/guilleiguaran/coffeescript-java/blob/master/CoffeeScript.java
+ *	Rhino based:
+ *	https://github.com/yeungda/jcoffeescript/blob/master/src/main/java/org/jcoffeescript/JCoffeeScriptCompiler.java
+ *	https://github.com/talios/coffee-maven-plugin/blob/develop/src/main/java/com/theoryinpractise/coffeescript/CoffeeScriptCompiler.java
+ *
  */
 public class CSCompiler extends Thread
 {
@@ -12,6 +20,11 @@ public class CSCompiler extends Thread
 	private File coffeeCompiler, sourceFile, targetFile;
 	private String source, result;
 	
+	/**
+	 *	Takes coffee-script.js, a sourceFile and a target file.
+	 *
+	 *	@return the compiled js code
+	 */
 	public static String compile ( File coffeeCompiler, File sourceFile, File targetFile )
 	{
 		CSCompiler compiler = new CSCompiler();
@@ -22,7 +35,12 @@ public class CSCompiler extends Thread
 		compiler.run();
 		return compiler.getResult();
 	}
-
+	
+	/**
+	 *	Takes coffee-script.js, source code and a target file.
+	 *
+	 *	@return the compiled js code
+	 */
 	public static String compile ( File coffeeCompiler, String source, File targetFile )
 	{
 		CSCompiler compiler = new CSCompiler();
@@ -58,13 +76,16 @@ public class CSCompiler extends Thread
 			String line = "";
 			while ( (line = br.readLine()) != null ) 
 			{
-				source = source + line;
+				source = source + line + "\n";
 			}
+			source += "\n";
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace();
 		}
+		
+		//System.out.println( source );
 	}
 	
 	public void setTarget ( File t )

@@ -109,9 +109,10 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		// 	PRE-COMPILE
 		// ------------------------------------------
 		
-		File cpmlr = sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" );
+		File csCompilerScript = sketch.getMode().getContentFile( 
+									TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" );
 		String res = CSCompiler.compile( 
-			cpmlr, 
+			csCompilerScript, 
 			coffeeCode, 
 			new File( bin, sketch.getName()+"-compiled.js" )
 		);
@@ -146,9 +147,23 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			for ( String s : sketchFolderFilesRaw )
 			{
 				if ( s.toLowerCase().startsWith(".") ) continue;
-				if ( !s.toLowerCase().endsWith(".js") ) continue;
-				// TODO: handle .coffee addons here
-				sffList.add(s);
+				if ( s.toLowerCase().endsWith(".js") )
+				{	
+					sffList.add(s);
+				}
+				else if ( s.toLowerCase().endsWith(".coffee") )
+				{
+					String t = s.replace(".coffee","-compiled.js");
+					String res2 = CSCompiler.compile( 
+						csCompilerScript, 
+						new File( sketch.getFolder(), s ),
+						new File( bin, t )
+					);
+					if ( res2 == null ) return false;
+					sffList.add(s);
+				}
+				else 
+					continue;
 			}
 			if ( sffList.size() > 0 )
 				sketchFolderFiles = (String[])sffList.toArray(new String[0]);
@@ -369,8 +384,18 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		{
 			for ( String s : sketchFolderFiles )
 			{
-				sourceFiles += "<a href=\"" + s + "\">" + s + "</a> ";
-				scriptFiles += "<script src=\""+ s +"\" type=\"text/javascript\"></script>\n";
+				if ( s.toLowerCase().endsWith(".js") )
+				{
+					sourceFiles += "<a href=\"" + s + "\">" + s + "</a> ";
+					scriptFiles += "<script src=\""+ s +"\" type=\"text/javascript\"></script>\n";
+				}
+				else if ( s.toLowerCase().endsWith(".coffee") )
+				{
+					sourceFiles += "<a href=\"" + s + "\">" + s + "</a> ";
+					scriptFiles += "<script src=\"" + 
+										s.replace(".coffee","-compiled.js") +
+										"\" type=\"text/javascript\"></script>\n";
+				}
 			}
 		}
 		templateFields.put( "source", sourceFiles );
