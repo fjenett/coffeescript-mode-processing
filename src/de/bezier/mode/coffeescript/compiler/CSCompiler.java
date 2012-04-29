@@ -82,6 +82,7 @@ public class CSCompiler extends Thread
 		}
 		catch ( Exception e )
 		{
+			System.err.println( sourceFile == null ? "<from source>" : sourceFile.getName() );
 			e.printStackTrace();
 		}
 		
@@ -122,6 +123,7 @@ public class CSCompiler extends Thread
 		}
 		catch ( Exception e )
 		{
+			System.err.println( sourceFile == null ? "<from source>" : sourceFile.getName() );
 			e.printStackTrace();
 		}
 		finally
@@ -133,6 +135,7 @@ public class CSCompiler extends Thread
 			}
 			catch ( Exception e )
 			{
+				System.err.println( sourceFile == null ? "<from source>" : sourceFile.getName() );
 				e.printStackTrace();
 			}
 		}
@@ -159,6 +162,7 @@ public class CSCompiler extends Thread
 			} 
 			catch ( JavaScriptException e ) 
 			{
+				System.err.println( sourceFile == null ? "<from source>" : sourceFile.getName() );
 				e.printStackTrace();
 			}
 		} 
@@ -177,8 +181,49 @@ public class CSCompiler extends Thread
 			}
 			catch ( Exception e )
 			{
+				System.err.println( sourceFile == null ? "<from source>" : sourceFile.getName() );
 				e.printStackTrace();
 			}
 		}
 	}
 }
+
+
+// some ol' crusty
+
+// ScriptEngineManager mgr = new ScriptEngineManager();
+// ScriptEngine jsEngine = mgr.getEngineByName("JavaScript");
+// 
+// for ( String[] l : new String[][]{sketchFolderFiles,csImports.toArray(new String[0])} )
+// {	
+// 	for ( String s : l )
+// 	{
+// 		try {
+// 			Reader reader = new FileReader( new File(bin, s) );
+// 			jsEngine.eval(reader);
+// 		} catch ( Exception e ) {
+// 			System.err.println( "Trouble evaluating " + s );
+// 			e.printStackTrace();
+// 		}
+// 	}
+// }
+// 
+// try {
+// 	Reader reader = new FileReader( sketch.getMode().getContentFile( 
+// 		TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" ) );
+// 	jsEngine.eval(reader);
+// } catch ( Exception e ) {	
+// 	System.err.println( "Trouble evaluating " + "coffee-script.js" );
+// 	e.printStackTrace();
+// }
+// 
+// try {
+// 	Invocable invocableEngine = (Invocable) jsEngine;
+//     String output = (String) invocableEngine.invokeFunction( 
+// 						"CoffeeScript.compile",
+// 						bigCode.toString() );
+//         } catch ( NoSuchMethodException ex ) {
+//             ex.printStackTrace();
+//         } catch ( ScriptException ex ) {
+//             ex.printStackTrace();
+//         }

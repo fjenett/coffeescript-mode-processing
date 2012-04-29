@@ -126,9 +126,9 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		if ( sketch.hasDataFolder() ) 
 		{
 			try {
-				Base.copyDir(sketch.getDataFolder(), bin);
+				Base.copyDir( sketch.getDataFolder(), bin );
 
-			} catch (IOException e) {
+			} catch ( IOException e ) {
 				final String msg = "An exception occured while trying to copy the data folder. " + 
 								   "You may have to manually move the contents of sketch/data to " +
 								   "the web-export-coffee/ folder. Processing.js doesn't look for a data " +
@@ -262,52 +262,6 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				}
 			}
 		}
-
-		// ------------------------------------------
-		// 	PRE-COMPILE
-		// ------------------------------------------
-		
-		// finally, add Processing.js
-		String[] needed = new String[]{
-			"processing.js", "coffee-script.js", "jquery.js"
-		};
-		
-		// ScriptEngineManager mgr = new ScriptEngineManager();
-		// ScriptEngine jsEngine = mgr.getEngineByName("JavaScript");
-		// 
-		// for ( String[] l : new String[][]{sketchFolderFiles,csImports.toArray(new String[0])} )
-		// {	
-		// 	for ( String s : l )
-		// 	{
-		// 		try {
-		// 			Reader reader = new FileReader( new File(bin, s) );
-		// 			jsEngine.eval(reader);
-		// 		} catch ( Exception e ) {
-		// 			System.err.println( "Trouble evaluating " + s );
-		// 			e.printStackTrace();
-		// 		}
-		// 	}
-		// }
-		// 
-		// try {
-		// 	Reader reader = new FileReader( sketch.getMode().getContentFile( 
-		// 		TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" ) );
-		// 	jsEngine.eval(reader);
-		// } catch ( Exception e ) {	
-		// 	System.err.println( "Trouble evaluating " + "coffee-script.js" );
-		// 	e.printStackTrace();
-		// }
-		// 
-		// try {
-		// 	Invocable invocableEngine = (Invocable) jsEngine;
-		//     String output = (String) invocableEngine.invokeFunction( 
-		// 						"CoffeeScript.compile",
-		// 						bigCode.toString() );
-		//         } catch ( NoSuchMethodException ex ) {
-		//             ex.printStackTrace();
-		//         } catch ( ScriptException ex ) {
-		//             ex.printStackTrace();
-		//         }
 		
 		// ------------------------------------------
 		// 	GRAB WIDTH, HEIGHT FOR HTML
@@ -354,8 +308,9 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		// ------------------------------------------
 		
 		// final prep and write to template.
-		// getTemplateFile() is very important as it looks and preps
+		// getTemplateFile() is very important as it looks up and preps
 		// any custom templates present in the sketch folder.
+		
 		File templateFile = getTemplateFile();
 		File htmlOutputFile = new File(bin, "index.html");
 
@@ -409,7 +364,12 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		// ------------------------------------------
 		// 	WRITE / MOVE FILES
 		// ------------------------------------------
-
+		
+		// need these ..
+		String[] needed = new String[]{
+			"processing.js", "coffee-script.js", "jquery.js"
+		};
+		
 		// process template replace tokens with content
 		try
 		{
@@ -423,9 +383,15 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		}
 
 		try {
-			for ( String n : needed ) {
-				Base.copyFile( sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + File.separator + n ), 
-						   	   new File( bin, n ) );
+			for ( String n : needed ) 
+			{
+				File nf = new File( bin, n );
+				if ( !nf.exists() )
+				{
+					Base.copyFile( 
+						sketch.getMode().getContentFile( TEMPLATE_FOLDER_NAME + File.separator + n ), 
+						nf );
+				}
 			}
 		} catch (IOException ioe) {
 			final String msg = "There was a problem copying one or more files to the " +
@@ -474,6 +440,8 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	 *  templates that might be living in the sketch folder. If such a "template_js"
 	 *  folder exists then it's contents will be copied over to "web-export-coffee" and
 	 *  it's template.html will be used as template.
+	 *
+	 *	@return the main template file renamed to index.html
 	 */
 	private File getTemplateFile ()
 	{
@@ -495,7 +463,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				return new File( customTemplateFolder, TEMPLATE_FILE_NAME );
 			} catch ( Exception e ) {	
 				String msg = "";
-				Base.showWarning("There was a problem copying your custom template folder", msg, e);
+				Base.showWarning( "There was a problem copying your custom template folder", msg, e );
 				return sketch.getMode().getContentFile(
 					TEMPLATE_FOLDER_NAME + File.separator + TEMPLATE_FILE_NAME
 				);
@@ -537,10 +505,10 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 						String value = fields.get(sb.substring(start+2, end));
 						sb.replace(start, end+2, value == null ? "" : value );
 					} else {
-						Base.showWarning("Problem writing file from template",
-														 "The template appears to have an unterminated " +
-														 "field. The output may look a little funny.",
-														 null);
+						Base.showWarning( "Problem writing file from template",
+										  "The template appears to have an unterminated " +
+										  "field. The output may look a little funny.",
+										  null );
 					}
 				}
 				line = sb.toString();
