@@ -12,8 +12,6 @@ setup: ->
 
 draw: ->
     
-    @loadPixels()
-
     xoff = 0.0 # Start xoff at 0
     detail = @map @mouseX, 0, @width, 0.1, 0.6
     @noiseDetail 8, detail
@@ -30,14 +28,13 @@ draw: ->
             
             # Calculate noise and scale by 255
             bright = @noise(xoff, yoff) * 255
-
+            
             # Try using this line instead
             #bright = @random(0,255)
             
             # Set each pixel onscreen to a grayscale value
-            @pixels[x+y*@width] = @color(bright)
+            @set x, y, @color( bright )
     
-    @updatePixels()
 
 
 

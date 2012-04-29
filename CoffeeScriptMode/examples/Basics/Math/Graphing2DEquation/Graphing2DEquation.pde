@@ -16,7 +16,6 @@ setup: ->
 draw: ->
     
     @background 0
-    @loadPixels()
     
     n = (@mouseX * 10.0) / @width
     w = 16.0             # 2D space width
@@ -40,12 +39,11 @@ draw: ->
             #val = @sin(theta)                # Another simple function
             
             # Map resulting vale to grayscale value
-            @pixels[ i+j*@width ] = @color (val + 1.0) * 255.0/2.0   # Scale to between 0 and 255
+            @set i, j, @color( (val + 1.0) * 255.0/2.0 )  # Scale to between 0 and 255
             
             y += dy                                # Increment y
         
         x += dx                                    # Increment x
     
-    @updatePixels()
 
 
