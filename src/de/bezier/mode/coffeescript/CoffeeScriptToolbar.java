@@ -68,11 +68,11 @@ public class CoffeeScriptToolbar extends EditorToolbar
 	    break;
 
 	  case NEW:
-	    if (shift) {
+	    // if (shift) {
 	      base.handleNew();
-	    } else {
-	      base.handleNewReplace();
-	    }
+	    // } else {
+	    //   base.handleNewReplace();
+	    // }
 	    break;
 
 	  case SAVE:

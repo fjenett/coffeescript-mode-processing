@@ -7,8 +7,8 @@ system that is going to be part of Processing 2.0
 
 ***Usage***
 
-Download Processing 2.0a5 or later:
-http://code.google.com/p/processing/downloads/list
+You need one of the later alphas of Processing 2.0 for this to run, fetch latest here:
+https://code.google.com/p/processing/downloads/list
 
 Download this latest zip:
 https://github.com/fjenett/coffeescript-mode-processing/zipball/latest
@@ -24,7 +24,7 @@ Unzip latest and from inside that folder move "CoffeeScriptMode" to "modes", lik
 		libraries/
 		.. sketches ..
 
-Start Processing 2.0a5+
+Start Processing 2.0a..
 
 ... in the mode menu (to the right in the editor window) you now should see "CoffeeScript".
 
