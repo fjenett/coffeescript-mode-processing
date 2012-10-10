@@ -94,7 +94,6 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				{
 					bigCode.append( "\t" + l + "\n" );
 				}
-				bigCode.append("\n");
 			}
 		}
 
@@ -103,7 +102,21 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 
 		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
 								  sketchID.substring(1).toLowerCase();
-		String coffeeCode = "\n" + "class " + coffeeSketchName + "\n" + bigCode.toString();
+		
+		// bigCode.append( "\t\n" );
+
+		// File api = sketch.getMode().getContentFile( "processing-api.coffee" );
+		// BufferedReader reader = PApplet.createReader(api);
+		// StringBuilder builder = new StringBuilder();
+		// String oneLine;
+		// while ((oneLine = reader.readLine()) != null) builder.append( "\t" + oneLine.replaceAll("\r","\n") + "\n" );
+		// bigCode.append( builder.toString() );
+		
+		// this is important ... as whitespace is meaningful in CS: it closes the class
+		bigCode.append("\n");
+
+		String coffeeCode = "\n" + "class " + coffeeSketchName + 
+							"\n" + bigCode.toString();
 		
 		// ------------------------------------------
 		// 	PRE-COMPILE
@@ -116,8 +129,11 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			coffeeCode, 
 			new File( bin, sketch.getName()+"-compiled.js" )
 		);
-		if ( res == null ) return false;
-		
+		if ( res == null ) {
+			System.out.println( coffeeCode );
+			return false;
+		}
+
 		// ------------------------------------------
 		// 	ADD FILES
 		// ------------------------------------------

@@ -448,7 +448,7 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	public boolean handleSave ( boolean immediately )
 	{
-		if (untitled) 
+		if (sketch.isUntitled()) 
 		{
 			return handleSaveAs();
 			// need to get the name, user might also cancel here
