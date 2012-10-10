@@ -1,16 +1,16 @@
 **CoffeeScript mode for Processing 2.0**
 
 This is a first attempt at a "contributed mode" which is a 
-system that is going to be part of Processing 2.0
+system that is part of new Processing 2.0
 
 [CoffeeScript](http://coffeescript.org/) was created by [Jeremy Ashkenas](https://github.com/jashkenas), inventor of [ruby-processing](https://github.com/jashkenas/ruby-processing)
 
 ***Usage***
 
-You need one of the later alphas of Processing 2.0 for this to run, fetch latest here:
-https://code.google.com/p/processing/downloads/list
+You need Processing 2.0 for this to run, fetch latest here:
+http://processing.org/download/
 
-Download this latest zip:
+Download this latest zip here:
 https://github.com/fjenett/coffeescript-mode-processing/zipball/latest
 
 Find your sketchbook folder and make a new sub-folder called "modes" if not already there
@@ -24,7 +24,7 @@ Unzip latest and from inside that folder move "CoffeeScriptMode" to "modes", lik
 		libraries/
 		.. sketches ..
 
-Start Processing 2.0a..
+Start Processing 2.0 ..
 
 ... in the mode menu (to the right in the editor window) you now should see "CoffeeScript".
 
@@ -44,18 +44,13 @@ A simple sketch looks like this:
 
 ***How does it work?***
 
-CoffeeScript mode is based on JavaScript mode in the soon to be released Processing 2.0 version. "Run" starts a server bound to an export folder inside your sketchs folder. It serves a generated html file containing your CS code along with Processing.js, CoffeeScript.js, jQuery and all other files to include from your sketch folder. The html file contains a short snippet of JS code that passes your CS code to the CS compiler to be converted to JS. A blank Processing.js sketch is generated and the generated JS code is mixed in with it through jQuery.extend(). Voilà ... a nice little soup of frameworks.
+CoffeeScript mode is based on JavaScript mode in the just released Processing 2.0 version. "Run" starts a server bound to an export folder inside your sketchs folder. It serves a generated html file containing your CS code along with Processing.js, CoffeeScript.js, jQuery and all other files to include from your sketch folder. The html file contains a short snippet of JS code that passes your CS code to the CS compiler to be converted to JavaScript. A blank Processing.js sketch is generated and the generated JS code is "mixed in" with it through jQuery.extend(). Voilà ... a nice little soup of frameworks.
 
 ***Status***
 
 Contributed modes are not officially introduced in Processing yet and so things might change in the future. Consider this experimental.
 
-I'm not all satisfied with the experience at the moment ... having to type "@" before each and every Processing variable or method kinda ruins the functionalism of CoffeeScript to me.
+I'm not all satisfied with the experience at the moment ... having to type "@" before each and every Processing variable or method kinda ruins the functionalism of CoffeeScript to me. Ideas, suggestions, feedback welcome ...
 
-***Specials***
-
-Import statements are supported for JavaScript since Processing 2.0alpha5, so they are now supported in CoffeeScript mode as well. They are written as comments to not confuse the CoffeeScript compiler:
-
-	#import de.bezier.guido.*
 
 
