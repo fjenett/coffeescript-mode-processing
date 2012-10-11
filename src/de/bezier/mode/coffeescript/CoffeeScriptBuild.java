@@ -117,7 +117,8 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
 		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
 
-		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
+		String coffeeSketchName = "Sketch" + 
+								  sketchID.substring(0,1).toUpperCase() + 
 								  sketchID.substring(1).toLowerCase();
 		
 		bigCode.append( tabs + "\n" );
