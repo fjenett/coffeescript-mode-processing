@@ -11,6 +11,7 @@ import processing.app.Sketch;
 import processing.app.SketchCode;
 import processing.app.Library;
 import processing.app.SketchException;
+import processing.app.Preferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +35,14 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	public static String EXPORTED_FOLDER_NAME = "web-export-coffee";
 	
 	public static final String SIZE_REGEX = 
-    	"(?:^|\\s|;)@size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
+    	"(?:^|\\s|;)size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
 	
 	public final static String IMPORT_REGEX =
-								"^[\\s]*#[\\s]*import[\\s]+([^\\s]+)[\\s]*";
+		"^[\\s]*#[\\s]*import[\\s]+([^\\s]+)[\\s]*";
 	
+	private final static String SETUP_REGEX = 
+		"^[\\s]*setup[\\s]*[:][\\s]*->[\\s]*?";
+
 	private File binFolder;
 	private Sketch sketch;
 	private Mode mode;
@@ -78,9 +82,13 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		{    
 			Base.removeDescendants( bin );
 		}
+
+		// use as many spaces as defined in preferences
+		String tabs = String.format( "%" + Preferences.get("editor.tabs.size") + "s", "" );
 		
 		StringBuffer bigCode = new StringBuffer();
 		String modeExt = mode.getDefaultExtension(); // only loads the .pde files
+		boolean setupFound = false;
 		for (SketchCode sc : sketch.getCode())
 		{
 			if (sc.isExtension(modeExt)) 
@@ -92,7 +100,16 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				// this is potantially problematic with multiline strings ..
 				for ( String l : progLns ) 
 				{
-					bigCode.append( "\t" + l + "\n" );
+					if ( !setupFound ) 
+					{
+						if ( l.replaceAll("[\\s]", "").equals("setup:->") ) 
+						{
+							bigCode.append( tabs + l + "\n" );
+							l = tabs + "injectProcessingApi(@)";
+							setupFound = true;
+						}
+					}
+					bigCode.append( tabs + l + "\n" );
 				}
 			}
 		}
@@ -103,14 +120,14 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		String coffeeSketchName = sketchID.substring(0,1).toUpperCase() + 
 								  sketchID.substring(1).toLowerCase();
 		
-		// bigCode.append( "\t\n" );
+		bigCode.append( tabs + "\n" );
 
-		// File api = sketch.getMode().getContentFile( "processing-api.coffee" );
-		// BufferedReader reader = PApplet.createReader(api);
-		// StringBuilder builder = new StringBuilder();
-		// String oneLine;
-		// while ((oneLine = reader.readLine()) != null) builder.append( "\t" + oneLine.replaceAll("\r","\n") + "\n" );
-		// bigCode.append( builder.toString() );
+		File api = sketch.getMode().getContentFile( "processing-api.coffee" );
+		BufferedReader reader = PApplet.createReader(api);
+		StringBuilder builder = new StringBuilder();
+		String oneLine;
+		while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
+		bigCode.append( builder.toString() );
 		
 		// this is important ... as whitespace is meaningful in CS: it closes the class
 		bigCode.append("\n");
