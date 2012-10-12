@@ -9,10 +9,10 @@ y = r * sin(theta)
 
 setup: ->
     
-    @size 640, 360
+    size 640, 360
     
     # Initialize all values
-    @r = @height * 0.45
+    @r = height * 0.45
     
     # Angle and angular velocity, accleration
     @theta = 0
@@ -22,20 +22,20 @@ setup: ->
 
 draw: ->
     
-    @background 0
+    background 0
     
     # Translate the origin point to the center of the screen
-    @translate @width/2, @height/2
+    translate width/2, height/2
     
     # Convert polar to cartesian
-    x = @r * @cos @theta
-    y = @r * @sin @theta
+    x = @r * cos @theta
+    y = @r * sin @theta
     
     # Draw the ellipse at the cartesian coordinate
-    @ellipseMode @CENTER
-    @noStroke()
-    @fill 200
-    @ellipse x, y, 32, 32
+    ellipseMode CENTER
+    noStroke()
+    fill 200
+    ellipse x, y, 32, 32
     
     # Apply acceleration and velocity to angle (r remains static in this example)
     @theta_vel += @theta_acc

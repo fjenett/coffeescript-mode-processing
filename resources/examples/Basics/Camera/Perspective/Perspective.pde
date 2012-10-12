@@ -15,25 +15,25 @@ to set the area precisely.
 ###
 
 setup: ->
-    @size 640, 360, @P3D
-    @noStroke()
+    size 640, 360, P3D
+    noStroke()
 
 draw: ->
-    @lights()
-    @background 204
-    cameraY = @height/2
-    fov = @mouseX / @width * @PI/2
-    cameraZ = cameraY / @tan( fov / 2 )
-    aspect = @width / @height
+    lights()
+    background 102
+    cameraY = height/2
+    fov = mouseX / width * PI/2
+    cameraZ = cameraY / tan( fov / 2 )
+    aspect = width / height
     
-    (aspect = aspect/2) if @mousePressed
+    (aspect = aspect/2) if mousePressed
     
-    @perspective fov, aspect, cameraZ/10, cameraZ*10
+    perspective fov, aspect, cameraZ/10, cameraZ*10
     
-    @translate @width/2+30, @height/2, 0
-    @rotateX -@PI/6
-    @rotateY @PI/2 + @mouseY/@height * @PI
-    @box 45
-    @translate 0, 0, -50
-    @box 30
+    translate width/2+30, height/2, 0
+    rotateX -PI/6
+    rotateY PI/2 + mouseY/height * PI
+    box 45
+    translate 0, 0, -50
+    box 30
     

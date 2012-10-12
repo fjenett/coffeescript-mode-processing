@@ -8,20 +8,20 @@ size proportionally.
 
 setup: ->
     
-    @size 640, 360
-    @noStroke()
-    @max_distance = @dist 0, 0, @width, @height
+    size 640, 360
+    noStroke()
+    @max_distance = dist 0, 0, width, height
     
 
 draw: ->
     
-    @background 0
+    background 0
     
-    for i in [0..@width] by 20
+    for i in [0..width] by 20
         
-        for j in [0..@height] by 20
+        for j in [0..height] by 20
             
-            size = @dist @mouseX, @mouseY, i, j
+            size = dist mouseX, mouseY, i, j
             size = size/@max_distance * 66
-            @ellipse i, j, size, size
+            ellipse i, j, size, size
 

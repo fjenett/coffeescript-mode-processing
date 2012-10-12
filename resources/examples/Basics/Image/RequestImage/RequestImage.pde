@@ -13,8 +13,8 @@ images to get the full effect.
 
 setup: ->
     
-    @size 640, 360
-    @smooth()
+    size 640, 360
+    smooth()
     
     @imgCount = 12
     @imgs = new Array( @imgCount )
@@ -22,15 +22,15 @@ setup: ->
     # Keeps track of loaded images (true or false)
     @loadStates = new Array( @imgCount )
     
-    @imgW = @width/@imgCount
+    @imgW = width/@imgCount
 
     # Load images asynchronously
     for i in [0...@imgCount]
-        @imgs[i] = @requestImage "PT_anim" + @nf(i, 4) + ".gif"
+        @imgs[i] = requestImage "PT_anim" + nf(i, 4) + ".gif"
 
 draw: ->
     
-    @background 0
+    background 0
     
     # Start loading animation
     @runLoaderAni()
@@ -49,11 +49,11 @@ draw: ->
 
 drawImages: ->
     
-    y = (@height - @imgs[0].height) / 2
+    y = (height - @imgs[0].height) / 2
     
     for i in [0...@imgs.length]
         
-        @image @imgs[i], @width/@imgs.length*i, y, @imgs[i].height, @imgs[i].height
+        image @imgs[i], width/@imgs.length*i, y, @imgs[i].height, @imgs[i].height
 
 
 # Loading animation
@@ -62,13 +62,13 @@ runLoaderAni: ->
     # Only run when images are loading
     if !@checkLoadStates()
         
-        @ellipse( @loaderX, @loaderY, 10, 10)
+        ellipse( @loaderX, @loaderY, 10, 10)
         @loaderX += 2
-        @loaderY = @height/2 + @sin(@theta) * (@height/8)
-        @theta += @PI/22
+        @loaderY = height/2 + sin(@theta) * (height/8)
+        @theta += PI/22
         
         # Reposition ellipse if it goes off the screen
-        @loaderX = -5 if (@loaderX > @width + 5)
+        @loaderX = -5 if (@loaderX > width + 5)
     
 
 # Return true when all images are loaded - no false values left in array 

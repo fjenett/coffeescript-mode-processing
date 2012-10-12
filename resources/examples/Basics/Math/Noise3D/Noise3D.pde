@@ -7,8 +7,8 @@ Here, the third dimension ('z') is treated as time.
 
 setup: ->
     
-    @size 640, 360
-    @frameRate 30
+    size 640, 360
+    frameRate 30
     
     @increment = 0.01
     
@@ -27,25 +27,25 @@ draw: ->
     xoff = 0.0 # Start xoff at 0
     
     # For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value
-    for x in [0...@width]
+    for x in [0...width]
         
         xoff += @increment     # Increment xoff 
         yoff = 0.0              # For every xoff, start yoff at 0
         
-        for y in [0...@height]
+        for y in [0...height]
             
             yoff += @increment # Increment yoff
             
             # Calculate noise and scale by 255
-            bright = @noise( xoff, yoff, @zoff ) * 255
+            bright = noise( xoff, yoff, @zoff ) * 255
 
             # Try using this line instead
             #bright = random 0, 255 
             
             # Set each pixel onscreen to a grayscale value
-            #@stroke bright
-            #@point x, y
-            @set x, y, @color( bright )
+            #stroke bright
+            #point x, y
+            set x, y, color( bright )
     
     @zoff += @zincrement # Increment zoff
 

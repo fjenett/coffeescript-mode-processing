@@ -8,18 +8,18 @@
 
 setup: ->
     
-    @size 640, 360 
+    size 640, 360 
     
-    @img = @loadImage "moonwalk.jpg"    # Load an image into the program
+    @img = loadImage "moonwalk.jpg"    # Load an image into the program
     @offset = 0;
     @easing = 0.05;
 
 draw: ->  
-    @image @img, 0, 0                   # Display at full opacity
-    dx =  @mouseX-@img.width/2 - @offset
+    image @img, 0, 0                   # Display at full opacity
+    dx =  mouseX-@img.width/2 - @offset
     @offset += dx * @easing 
-    @tint 255, 126                      # Display at half opacity
-    @image @img, @offset, 0
+    tint 255, 126                      # Display at half opacity
+    image @img, @offset, 0
 
 
 
