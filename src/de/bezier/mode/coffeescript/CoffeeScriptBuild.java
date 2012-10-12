@@ -35,7 +35,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	public static String EXPORTED_FOLDER_NAME = "web-export-coffee";
 	
 	public static final String SIZE_REGEX = 
-    	"(?:^|\\s|;)@size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
+    	"(?:^|\\s|;)[@]?size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
 	
 	public final static String IMPORT_REGEX =
 		"^[\\s]*#[\\s]*import[\\s]+([^\\s]+)[\\s]*";
@@ -109,12 +109,17 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				{
 					if ( !setupFound ) 
 					{
-						// if ( l.replaceAll("[\\s]", "").equals("setup:->") ) 
-						// {
-						// 	bigCode.append( tabs + l + "\n" );
-						// 	l = tabs + "injectProcessingApi("+coffeeSketchName+",@)";
-						// 	setupFound = true;
-						// }
+						if ( l.replaceAll("[\\s]", "").equals("setup:->") ) 
+						{
+							String indent = "";
+							int indentSetup = l.indexOf("setup");
+							if ( indentSetup > 0 ) {
+								indent = String.format( "%" + indentSetup + "s", "" );
+							}
+							bigCode.append( tabs + indent + l + "\n" );
+							l = tabs + "injectProcessingApi(@)";
+							setupFound = true;
+						}
 					}
 					bigCode.append( tabs + l + "\n" );
 				}
@@ -148,23 +153,23 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 
 		// inject Processing API to remove need for "@" ("this") everywhere ..
 
-		// File api = sketch.getMode().getContentFile( "processing-api.js" );
-		// BufferedReader reader = PApplet.createReader(api);
-		// StringBuilder builder = new StringBuilder();
-		// String oneLine;
-		// while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
-		// String apiStr = builder.toString();
+		File api = sketch.getMode().getContentFile( "processing-api-min.js" );
+		BufferedReader reader = PApplet.createReader(api);
+		StringBuilder builder = new StringBuilder();
+		String oneLine;
+		while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
+		String apiStr = builder.toString();
 
-		// String sketchHead = coffeeSketchName + " = (function() {";
-		// String compiledInjectedSketch = compiledSketch.replace( sketchHead, sketchHead + "\n" + apiStr + "\n" );
+		String sketchHead = coffeeSketchName + " = (function() {";
+		String compiledInjectedSketch = compiledSketch.replace( sketchHead, sketchHead + "\n" + apiStr + "\n" );
 
-		// PrintWriter writer = PApplet.createWriter( compiledSketchFile );
-		// String[] csLines = compiledInjectedSketch.split( "\n" );
-		// for ( String l : csLines )
-		// {
-		// 	writer.println( l );
-		// }
-		// writer.close();
+		PrintWriter writer = PApplet.createWriter( compiledSketchFile );
+		String[] csLines = compiledInjectedSketch.split( "\n" );
+		for ( String l : csLines )
+		{
+			writer.println( l );
+		}
+		writer.close();
 
 		// ------------------------------------------
 		// 	ADD FILES
@@ -185,8 +190,8 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			}
 		}
 
-		// as .js files are allowed now include these into the mix,
-		// first find 'em ..
+		// as .js and .coffee files are allowed now include these into the mix,
+		// first find and compile them ..
 		String[] sketchFolderFilesRaw = sketch.getFolder().list();
 		String[] sketchFolderFiles = new String[0];
 		ArrayList sffList = new ArrayList();
@@ -195,7 +200,11 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			for ( String s : sketchFolderFilesRaw )
 			{
 				if ( s.toLowerCase().startsWith(".") ) continue;
-				if ( s.toLowerCase().endsWith(".js") )
+				if ( s.toLowerCase().endsWith(".pde") )
+				{	
+					sffList.add(s);
+				} 
+				else if ( s.toLowerCase().endsWith(".js") )
 				{	
 					sffList.add(s);
 				}
@@ -207,7 +216,10 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 						new File( sketch.getFolder(), s ),
 						new File( bin, t )
 					);
-					if ( res2 == null ) return false;
+					if ( res2 == null ) {
+						System.err.println( "Something went wrong compiling: " + s );
+						return false;
+					}
 					sffList.add(s);
 				}
 				else 
@@ -217,6 +229,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				sketchFolderFiles = (String[])sffList.toArray(new String[0]);
 		}
 		
+		// ... now copy them over.
 		for ( String s : sketchFolderFiles )
 		{
 			try {
@@ -387,7 +400,11 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		{
 			for ( String s : sketchFolderFiles )
 			{
-				if ( s.toLowerCase().endsWith(".js") )
+				if ( s.toLowerCase().endsWith(".pde") && !s.equals(sketch.getName()+".pde") )
+				{
+					sourceFiles += "<a href=\"" + s + "\">" + s.replace(".pde","") + "</a> ";
+				}
+				else if ( s.toLowerCase().endsWith(".js") )
 				{
 					sourceFiles += "<a href=\"" + s + "\">" + s + "</a> ";
 					scriptFiles += "<script src=\""+ s +"\" type=\"text/javascript\"></script>\n";
