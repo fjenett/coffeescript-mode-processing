@@ -10,21 +10,18 @@ the computer is connected to the Internet.
 
 setup: ->
     
-    @size 640, 360
-    @img = @loadImage "http://processing.org/img/processing.gif"
-    @noLoop()
+    size 640, 360
+    @img = loadImage "http://processing.org/img/processing.gif"
+    noLoop()
 
 
 draw: ->
     
-    @background(0)
+    background 0
     
     if @img != null
        
         for i in [0...5]
             
-            @image @img, 0, @img.height * i
-        
-    
-
+            image @img, 0, @img.height * i
 

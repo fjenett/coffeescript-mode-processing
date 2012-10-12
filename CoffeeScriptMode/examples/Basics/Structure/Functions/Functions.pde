@@ -8,17 +8,17 @@ rings for each target.
 
 setup: ->
     
-    @size 640, 360
-    @background 51
-    @noStroke()
-    @noLoop()
+    size 640, 360
+    background 51
+    noStroke()
+    noLoop()
 
 
 draw: ->
     
-    @drawTarget @width*0.25, @height*0.4, 200, 4
-    @drawTarget @width*0.5,  @height*0.5, 300, 10
-    @drawTarget @width*0.75, @height*0.3, 120, 6
+    @drawTarget width*0.25, height*0.4, 200, 4
+    @drawTarget width*0.5,  height*0.5, 300, 10
+    @drawTarget width*0.75, height*0.3, 120, 6
 
 
 drawTarget: ( xloc, yloc, size, num ) ->
@@ -28,6 +28,6 @@ drawTarget: ( xloc, yloc, size, num ) ->
     
     for i in [0...num]
         
-        @fill i*grayvalues
-        @ellipse xloc, yloc, size - i*steps, size - i*steps
+        fill i*grayvalues
+        ellipse xloc, yloc, size - i*steps, size - i*steps
 

@@ -13,37 +13,37 @@
 
 setup: ->
     
-    @size 640, 360
+    size 640, 360
     
-    @usa = @loadShape "usa-wikipedia.svg"
+    @usa = loadShape "usa-wikipedia.svg"
     @michigan = @usa.getChild "MI"
     @ohio = @usa.getChild "OH"
 
 
 draw: ->
     
-    @background 255
+    background 255
     
     # Draw the full map
-    @shape @usa, -600, -180
+    shape @usa, -600, -180
     
     # Disable the colors found in the SVG file
     @michigan.disableStyle()
    
     # Set our own coloring
-    @fill 0, 51, 102
-    @noStroke()
+    fill 0, 51, 102
+    noStroke()
     
     # Draw a single state
-    @shape @michigan, -600, -180 # Wolverines!
+    shape @michigan, -600, -180 # Wolverines!
     
     # Disable the colors found in the SVG file
     @ohio.disableStyle()
     
     # Set our own coloring
-    @fill 153, 0, 0
-    @noStroke()
+    fill 153, 0, 0
+    noStroke()
     
     # Draw a single state
-    @shape @ohio, -600, -180    # Buckeyes!
+    shape @ohio, -600, -180    # Buckeyes!
 

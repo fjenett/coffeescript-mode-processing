@@ -11,8 +11,8 @@ current position toward the cursor.
 
 setup: ->
     
-    @size 640, 360 
-    @noStroke()
+    size 640, 360 
+    noStroke()
     
     @x = 0
     @y = 0
@@ -20,14 +20,14 @@ setup: ->
 
 draw: ->
     
-    @background 51
+    background 51
     
-    @targetX = @mouseX
+    @targetX = mouseX
     dx = @targetX - @x
-    @x += ( dx * @easing ) if ( @abs(dx) > 1 )
+    @x += ( dx * @easing ) if ( abs(dx) > 1 )
     
-    @targetY = @mouseY
+    @targetY = mouseY
     dy = @targetY - @y
-    @y += ( dy * @easing ) if ( @abs(dy) > 1 )
+    @y += ( dy * @easing ) if ( abs(dy) > 1 )
     
-    @ellipse @x, @y, 66, 66
+    ellipse @x, @y, 66, 66

@@ -10,35 +10,35 @@ setting the font, and then drawing the letters.
 
 setup: ->
     
-    @size 640, 360
-    @background 0
+    size 640, 360
+    background 0
 
     # Create the font
-    @textFont @createFont( "Georgia", 24 )
-    @textAlign @CENTER, @CENTER
+    textFont createFont( "Georgia", 24 )
+    textAlign CENTER, CENTER
  
 
 draw: ->
     
-    @background 0
+    background 0
 
     # Set the left and top margin
     margin = 10
-    @translate margin*4, margin*4
+    translate margin*4, margin*4
 
     gap = 46
     counter = 35
     
-    for y in [0...(@height-gap)] by gap
+    for y in [0...(height-gap)] by gap
         
-        for x in [0...(@width-gap)] by gap
+        for x in [0...(width-gap)] by gap
             
-            letter = new @Character(counter).toString()
+            letter = new Character(counter).toString()
             
-            @fill if (letter == 'A' || letter == 'E' || letter == 'I' || letter == 'O' || letter == 'U') then 255 else 102
+            fill if (letter == 'A' || letter == 'E' || letter == 'I' || letter == 'O' || letter == 'U') then 255 else 102
             
             # Draw the letter to the screen
-            @text letter, x, y
+            text letter, x, y
             
             # Increment the counter
             counter++

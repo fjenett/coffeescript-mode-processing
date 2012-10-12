@@ -9,41 +9,41 @@ special version of.
 
 setup: ->
     
-    @size 640, 360
-    @background 204
-    @noLoop()
+    size 640, 360
+    background 204
+    noLoop()
     
     # Run the constructor without parameters
-    @sp1 = new Spot this
+    @sp1 = new Spot()
     
     # Run the constructor with three parameters
-    @sp2 = new Spot this, @width*0.5, @height*0.5, 120
+    @sp2 = new Spot width*0.5, height*0.5, 120
 
 
 draw: ->
     
-    @sp1.drawInto this
-    @sp2.drawInto this
+    @sp1.drawInto()
+    @sp2.drawInto()
 
 
 class Spot 
     
-    constructor: ( @p5, @x, @y, @radius ) ->
+    constructor: ( @x, @y, @radius ) ->
         
         # handling if no values are given:
         # "arguments" is an array that holds all parameters 
         # passed into a method
         
-        if ( arguments.length == 1 ) # called with only one value
+        if ( arguments.length == 0 ) # called with only one value
             
             @radius = 40
-            @x = @p5.width  * 0.25
-            @y = @p5.height * 0.5
+            @x = width  * 0.25
+            @y = height * 0.5
     
     
-    drawInto: (@p5) ->
+    drawInto: ->
         
-        @p5.ellipse @x, @y, @radius*2, @radius*2
+        ellipse @x, @y, @radius*2, @radius*2
     
     
 

@@ -12,8 +12,8 @@ function that is called when a key is released.
 
 setup: ->
     
-    @size 640, 360
-    @noStroke()
+    size 640, 360
+    noStroke()
     
     @maxHeight = 40
     @minHeight = 20
@@ -27,12 +27,12 @@ setup: ->
     @numChars = 26             # There are 26 characters in the alphabet
     @colors = new Array( @numChars )
     
-    @colorMode @RGB, @numChars
-    @background @numChars/2
+    colorMode RGB, @numChars
+    background @numChars/2
     
     # Set a gray value for each key
     for i in [0..@numChars]
-        @colors[i] = @color(i)        
+        @colors[i] = color(i)        
 
 draw: ->
     
@@ -42,12 +42,12 @@ draw: ->
         y_pos = 0
         if ( @letterHeight == @maxHeight )
             y_pos = @y
-            @rect @x, y_pos, @letterWidth, @letterHeight
+            rect @x, y_pos, @letterWidth, @letterHeight
         else
             y_pos = @y + @minHeight
-            @rect @x, y_pos, @letterWidth, @letterHeight
-            @fill @numChars/2
-            @rect @x, y_pos-@minHeight, @letterWidth, @letterHeight
+            rect @x, y_pos, @letterWidth, @letterHeight
+            fill @numChars/2
+            rect @x, y_pos-@minHeight, @letterWidth, @letterHeight
             
         @newletter = false
 
@@ -57,7 +57,7 @@ keyPressed: ->
     z = @charCode 'z'
     A = @charCode 'A'
     Z = @charCode 'Z'
-    k = @charCode @key
+    k = @charCode key
     
     # If the key is between 'A'(65) and 'z'(122)
     if ( k >= A and k <= z )
@@ -65,14 +65,14 @@ keyPressed: ->
         if ( k <= Z )
             keyIndex = k-A
             @letterHeight = @maxHeight
-            @fill @colors[k-A]
+            fill @colors[k-A]
         else
             keyIndex = k-a
             @letterHeight = @minHeight
-            @fill @colors[k-a]
+            fill @colors[k-a]
         
     else
-        @fill 0
+        fill 0
         @letterHeight = 10
     
     @newletter = true
@@ -81,14 +81,14 @@ keyPressed: ->
     @x = ( @x + @letterWidth ) 
     
     # Wrap horizontally
-    if ( @x > @width - @letterWidth )
+    if ( @x > width - @letterWidth )
         @x = 0
         @y+= @maxHeight
     
     # Wrap vertically
-    @y = 0 if( @y > @height - @letterHeight ) # reset y to 0
+    @y = 0 if( @y > height - @letterHeight ) # reset y to 0
 
 charCode: (c) ->
     # using Processing.js Character class to get the char code
-    new @Character( c ).code
+    new Character( c ).code
 

@@ -9,15 +9,15 @@ that define the shape of the curve.
 
 setup: -> 
     
-    @size 640, 360
-    @stroke 255
-    @noFill()
+    size 640, 360
+    stroke 255
+    noFill()
 
 draw: ->
     
-    @background 0
+    background 0
     
     for i in [0..200] by 20 
         
-        @bezier( @mouseX-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0) )
+        bezier( mouseX-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0) )
     

@@ -9,24 +9,24 @@ lights off.
 
 setup: ->
     
-    @size 640, 360, @P3D
-    @noStroke()
+    size 640, 360, P3D
+    noStroke()
     
     @spin = 0.0
 
 
 draw: ->
     
-    @background(51)
+    background(51)
     
-    @lights() if not @__mousePressed
+    lights() if not mousePressed
     
     @spin += 0.01
     
-    @pushMatrix()
-    @translate @width/2, @height/2, 0
-    @rotateX @PI/9
-    @rotateY @PI/5 + @spin
-    @box 150
-    @popMatrix()
+    pushMatrix()
+    translate width/2, height/2, 0
+    rotateX PI/9
+    rotateY PI/5 + @spin
+    box 150
+    popMatrix()
 

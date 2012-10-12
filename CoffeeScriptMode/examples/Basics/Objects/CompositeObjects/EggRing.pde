@@ -1,10 +1,11 @@
+
 class EggRing
     
-    constructor: ( @p5, @x, @y, @t, @sp ) ->
+    constructor: ( @x, @y, @t, @sp ) ->
         
-        @ovoid = new Egg @p5, @x, @y, @t, @sp
+        @ovoid = new Egg @x, @y, @t, @sp
         @circle = new Ring()
-        @circle.start @p5, @x, @y - @sp/2
+        @circle.start @x, @y - @sp/2
     
     
     transmit: ->

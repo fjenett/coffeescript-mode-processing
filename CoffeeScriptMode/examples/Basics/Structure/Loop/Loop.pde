@@ -12,11 +12,11 @@ cause the draw() the execute continuously.
 # run once when the program begins
 setup: ->
     
-    @size 640, 360    # Size should be the first statement
-    @stroke 255       # Set stroke color to white
-    @noLoop()
+    size 640, 360    # Size should be the first statement
+    stroke 255       # Set stroke color to white
+    noLoop()
     
-    @y = @height * 0.5
+    @y = height * 0.5
 
 
 # The statements in draw() are run until the 
@@ -25,11 +25,11 @@ setup: ->
 # line is run again.
 draw: ->
     
-    @background 0     # Set the background to black
-    @line 0, @y, @width, @y    
+    background 0     # Set the background to black
+    line 0, @y, width, @y    
     
     @y = @y - 1 
-    @y = @height if @y < 0
+    @y = height if @y < 0
 
 
 mousePressed: ->

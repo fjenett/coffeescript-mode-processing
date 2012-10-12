@@ -10,10 +10,10 @@ the mouse is clicked.
 # execute once when the program begins
 setup: ->
     
-    @size 640, 360    # Size should be the first statement
-    @stroke 255       # Set line drawing color to white
-    @noLoop()
-    @y = @height * 0.5
+    size 640, 360    # Size should be the first statement
+    stroke 255       # Set line drawing color to white
+    noLoop()
+    @y = height * 0.5
 
 
 # The statements in draw() are executed until the 
@@ -22,13 +22,13 @@ setup: ->
 # line is executed again.
 draw: ->
     
-    @background(0)     # Set the background to black
+    background(0)     # Set the background to black
     @y = @y - 4 
-    @y = @height if @y < 0  
-    @line 0, @y, @width, @y
+    @y = height if @y < 0  
+    line 0, @y, width, @y
 
 
 mousePressed: ->
     
-    @redraw()
+    redraw()
 

@@ -8,10 +8,10 @@ number. These numbers can be used to position shapes in space.
      
 setup: ->
     
-    @size 640, 360
-    @noStroke()
-    @background 0
-    @rectWidth = @width/4
+    size 640, 360
+    noStroke()
+    background 0
+    @rectWidth = width/4
 
 draw: ->
     
@@ -25,7 +25,7 @@ keyPressed: ->
     z = @charCode 'z'
     A = @charCode 'A'
     Z = @charCode 'Z'
-    k = @charCode @key
+    k = @charCode key
     
     if ( k >= A && k <= Z ) 
         keyIndex = k - A
@@ -34,17 +34,17 @@ keyPressed: ->
     
     if ( keyIndex == -1 )
         # If it's not a letter key, clear the screen
-        @background 0
+        background 0
     else
         # It's a letter key, fill a rectangle
-        @fill( @millis() % 255 )
-        x = @map keyIndex, 0, 25, 0, @width - @rectWidth
-        @rect x, 0, @rectWidth, @height
+        fill( millis() % 255 )
+        x = map keyIndex, 0, 25, 0, width - @rectWidth
+        rect x, 0, @rectWidth, height
     
 
 charCode: ( c ) ->
     
     # using Processing.js Character class to get char code from string
-    new @Character( c ).code
+    new Character( c ).code
 
 

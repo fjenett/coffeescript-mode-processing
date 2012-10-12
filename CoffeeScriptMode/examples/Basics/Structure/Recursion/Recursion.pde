@@ -8,21 +8,21 @@ It continues to do this until the variable "level" is equal to 1.
  
 setup: ->
     
-    @size 640, 360
-    @noStroke()
-    @noLoop()
+    size 640, 360
+    noStroke()
+    noLoop()
 
 
 draw: ->
     
-    @drawCircle @width/2, 280, 6
+    @drawCircle width/2, 280, 6
 
 
 drawCircle: ( x, radius, level ) ->
     
     tt = 126 * level/4.0
-    @fill tt
-    @ellipse x, @height/2, radius*2, radius*2            
+    fill tt
+    ellipse x, height/2, radius*2, radius*2            
     
     if ( level > 1 )
         

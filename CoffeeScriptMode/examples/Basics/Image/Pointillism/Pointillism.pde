@@ -9,20 +9,20 @@ according to pixels in an image.
 
 setup: ->
     
-    @size 640, 360
-    @img = @loadImage "moonwalk.jpg"
+    size 640, 360
+    @img = loadImage "moonwalk.jpg"
     @smallPoint = 4;
     @largePoint = 40;
-    @imageMode @CENTER
-    @noStroke()
-    @background 255
+    imageMode CENTER
+    noStroke()
+    background 255
 
 
 draw: ->
     
-    pointillize = @map @mouseX, 0, @width, @smallPoint, @largePoint
-    x = @parseInt @random @img.width
-    y = @parseInt @random @img.height
+    pointillize = map mouseX, 0, width, @smallPoint, @largePoint
+    x = parseInt random @img.width
+    y = parseInt random @img.height
     pix = @img.get x, y
-    @fill pix, 128
-    @ellipse x, y, pointillize, pointillize
+    fill pix, 128
+    ellipse x, y, pointillize, pointillize

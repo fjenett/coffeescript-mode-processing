@@ -10,14 +10,14 @@ different patterns in time are created.
 
 setup: ->
     
-    @size 640, 360
-    @noStroke()
-    @s = @width/20
+    size 640, 360
+    noStroke()
+    @s = width/20
 
 
 draw: ->
     
     for i in [0..@s]
-        @colorMode @RGB, (i+1) * @s * 10
-        @fill @millis() % ((i+1) * @s * 10)
-        @rect i*@s, 0, @s, @height
+        colorMode RGB, (i+1) * @s * 10
+        fill millis() % ((i+1) * @s * 10)
+        rect i*@s, 0, @s, height

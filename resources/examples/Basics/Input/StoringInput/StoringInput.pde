@@ -11,9 +11,9 @@ and the oldest value is deleted.
 
 setup: ->
     
-    @size 640, 360
-    @noStroke()
-    @fill 255, 153
+    size 640, 360
+    noStroke()
+    fill 255, 153
     
     @num = 60
     @mx = new Array(@num)
@@ -22,16 +22,16 @@ setup: ->
 
 draw: ->
     
-    @background 51
+    background 51
     
     # Cycle through the array, using a different entry on each frame. 
     # Using modulo (%) like this is faster than moving all the values over.
-    which = @frameCount % @num
-    @mx[which] = @mouseX
-    @my[which] = @mouseY
+    which = frameCount % @num
+    @mx[which] = mouseX
+    @my[which] = mouseY
     
     for i in [0..@num]
         # which+1 is the smallest (the oldest in the array)
         index = (which+1 + i) % @num
-        @ellipse @mx[index], @my[index], i, i
+        ellipse @mx[index], @my[index], i, i
     

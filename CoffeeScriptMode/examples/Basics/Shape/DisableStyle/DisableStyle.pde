@@ -14,24 +14,24 @@ method turns it back on.
 
 setup: ->
     
-    @size 640, 360
+    size 640, 360
     
     # The file "bot1.svg" must be in the data folder
     # of the current sketch to load successfully
-    @bot = @loadShape "bot1.svg"
-    @noLoop()
+    @bot = loadShape "bot1.svg"
+    noLoop()
 
 
 draw: ->
     
-    @background 102
+    background 102
     
     # Draw left bot
     @bot.disableStyle()    # Ignore the colors in the SVG
-    @fill 0, 102, 153        # Set the SVG fill to blue
-    @stroke 255                    # Set the SVG fill to white
-    @shape @bot, 20, 25, 300, 300
+    fill 0, 102, 153        # Set the SVG fill to blue
+    stroke 255                    # Set the SVG fill to white
+    shape @bot, 20, 25, 300, 300
 
     # Draw right bot
     @bot.enableStyle()
-    @shape @bot, 320, 25, 300, 300
+    shape @bot, 320, 25, 300, 300

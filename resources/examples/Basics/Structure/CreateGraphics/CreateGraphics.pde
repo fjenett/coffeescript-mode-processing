@@ -10,24 +10,24 @@ graphics buffer or to maintain two contexts with different properties.
 
 setup: ->
     
-    @size 640, 360
-    @pg = @createGraphics 400, 200, @P2D
+    size 640, 360
+    @pg = createGraphics 400, 200, P2D
 
 
 draw: ->
     
-    @fill 0, 12
-    @rect 0, 0, @width, @height
-    @fill 255
-    @noStroke()
-    @ellipse @mouseX, @mouseY, 60, 60
+    fill 0, 12
+    rect 0, 0, width, height
+    fill 255
+    noStroke()
+    ellipse mouseX, mouseY, 60, 60
     
     @pg.beginDraw()
     @pg.background 51
     @pg.noFill()
     @pg.stroke 55
-    @pg.ellipse @mouseX-120, @mouseY-60, 60, 60
+    @pg.ellipse mouseX-120, mouseY-60, 60, 60
     @pg.endDraw()
     
-    @image @pg, 120, 60
+    image @pg, 120, 60
 

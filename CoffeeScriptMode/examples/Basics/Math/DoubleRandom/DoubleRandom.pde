@@ -8,9 +8,9 @@ to create an irregular sawtooth line.
     
 setup: ->
     
-    @size 640, 360
-    @stroke 255
-    @frameRate 1
+    size 640, 360
+    stroke 255
+    frameRate 1
 
     @totalPts = 300
     @steps = @totalPts + 1
@@ -18,11 +18,11 @@ setup: ->
 
 draw: ->
     
-    @background 0
+    background 0
     rand = 0
     
     for i in [1...@steps]
         
-        @point (@width/@steps) * i, (@height/2) + @random( -rand, rand )
-        rand += @random(-5, 5)
+        point (width/@steps) * i, (height/2) + random( -rand, rand )
+        rand += random(-5, 5)
 

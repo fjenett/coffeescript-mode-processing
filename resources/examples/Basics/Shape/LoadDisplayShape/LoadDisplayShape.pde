@@ -14,16 +14,16 @@ it'll work for SVGs created with anything else.
 
 setup: ->
     
-    @size(640, 360);
+    size(640, 360);
     
     # The file "bot1.svg" must be in the data folder
     # of the current sketch to load successfully
-    @bot = @loadShape "bot1.svg"
+    @bot = loadShape "bot1.svg"
 
 
 draw: ->
     
-    @background 102
-    @shape @bot, 110, 90, 100, 100    # Draw at coordinate (10, 10) at size 100 x 100
-    @shape @bot, 280, 40              # Draw at coordinate (70, 60) at the default size
+    background 102
+    shape @bot, 110, 90, 100, 100    # Draw at coordinate (10, 10) at size 100 x 100
+    shape @bot, 280, 40              # Draw at coordinate (70, 60) at the default size
 
