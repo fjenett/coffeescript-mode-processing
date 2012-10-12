@@ -15,22 +15,22 @@ setup: ->
     @words = ['Chicken', 'Yes', 'Come']
     
     @textFont @createFont 'Helvetica', 62
-    @fill 0
     
     @next = yes
     @noLoop()
 
 draw: ->
     
-    if ( @next )
-        
+    if @next
         @background 255
+        @fill 0
         
         p = @perm.next()
-        y = 56
+        yy = 56
+        
         for n in p
-            @text @words[n], 16, y
-            y += 64
+            @text @words[n], 16, yy
+            yy += 64
             
         @next = no
 
@@ -38,7 +38,7 @@ mouseReleased: ->
     
     @next = yes
     @redraw()
-    
+
 keyPressed: ->
     
     @perm.rewind() unless @perm.hasMore()

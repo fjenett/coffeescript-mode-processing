@@ -16,12 +16,11 @@ draw: ->
     d = @DIR_UP
     for x in [0..@width] by @blockWidth
         for y in [0..@height] by @blockWidth
-            d = if d is @DIR_RIGHT then @DIR_UP else @DIR_RIGHT 
+            d = if d is @DIR_RIGHT then @DIR_UP else @DIR_RIGHT
             @drawStripedBlock d, x, y, @blockWidth
     
 
 drawStripedBlock: (dir, x, y, wh) ->
-    
     @noStroke()
     @fill 0
     for s in [0..wh] by wh/5

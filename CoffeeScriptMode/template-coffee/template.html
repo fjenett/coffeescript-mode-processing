@@ -42,8 +42,8 @@
 			<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
 		<![endif]-->
 		<script src="jquery.js" type="text/javascript"></script>
-		<script src="coffee-script.js" type="text/javascript"></script>
 		<script src="processing.js" type="text/javascript"></script>
+		<script src="@@sketch@@-compiled.js" type="text/javascript"></script>
 		@@scripts@@
 	</head>
 	<body>
@@ -69,39 +69,29 @@
 		</div>
 		<script type="text/coffeescript-processing">@@coffee@@</script>
 		@@coffeescripts@@
-		<script id="cs-p5-template" type="text/coffeescript-processing-template">
-			(function(){
-				//COMPILED-COFFEESCRIPT-CODE//
-				var p5 = new Processing(
-					document.getElementById("@@id@@"),
-					function ( processing ) { 
-						jQuery.extend( processing, new @@coffeesketch@@() );
-					}
-				);
-				p5['isMousePressed'] = 	 function(){ return p5.__mousePressed; }; 
-				p5['isKeyPressed'] = 	 function(){ return p5.__keyPressed;   }; 
-				p5['currentFrameRate'] = function(){ return p5.__frameRate;    };
-			})();
-		</script>
 		<script type="text/javascript">
 		/* + + + + + + + + + + + + + + + + + + + + + + + + + +
 		 +
-		 +	  This reads the coffee code from the script tag
-		 +    above and compiles it to JavaScript. That is 
-		 +    then wrapped into an object that is passed to 
-		 +    Processing.js to be run. Simple as that.
+		 +    Your CoffeeScript code has been precompiled to 
+		 +    JavaScript. Below it is being wrapped into an 
+		 +    object that is passed to Processing.js to be run. 
+		 +    Simple as that.
 		 +
 		 + + + + + + + + + + + + + + + + + + + + + + + + + + */
-		jQuery(document).ready(function(){
-			var codeCoffee = jQuery('script[type="text/coffeescript-processing"]').text();
-			var codeJS = "";
-			try { codeJS = CoffeeScript.compile( codeCoffee, {bare: true} ); } catch ( e ) { alert(e); return; }
-			// uncomment to inspect the generated code:
-			// console.log( codeJS );
-			var codePJS = jQuery('#cs-p5-template').text();
-			codePJS = codePJS.replace( "//COMPILED-COFFEESCRIPT-CODE//", codeJS );
-			var sketchInstance = null;
-			try { sketchInstance = eval( codePJS ); } catch ( e2 ) { alert(e2); return; }
+		jQuery(function(){
+			if ( ! '@@coffeesketch@@' in window ) {
+				alert('Something went awfully wrong. Please check file @@coffeesketch@@-compiled.js');
+				return;
+			}
+			var p5 = new Processing(
+				document.getElementById("@@id@@"),
+				function ( processing ) { 
+					jQuery.extend( processing, new @@coffeesketch@@() );
+				}
+			);
+			p5['isMousePressed'] = 	 function(){ return p5.__mousePressed; }; 
+			p5['isKeyPressed'] = 	 function(){ return p5.__keyPressed;   }; 
+			p5['currentFrameRate'] = function(){ return p5.__frameRate;    };
 		});
 		</script>
 	</body>

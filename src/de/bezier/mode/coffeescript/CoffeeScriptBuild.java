@@ -35,7 +35,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	public static String EXPORTED_FOLDER_NAME = "web-export-coffee";
 	
 	public static final String SIZE_REGEX = 
-    	"(?:^|\\s|;)size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
+    	"(?:^|\\s|;)@size\\s*[(]?\\s*([^\\s,]+)\\s*,\\s*([^\\s,\\)]+),?\\s*([^\\)]*)\\s*[)]?\\s*[;]?";
 	
 	public final static String IMPORT_REGEX =
 		"^[\\s]*#[\\s]*import[\\s]+([^\\s]+)[\\s]*";
@@ -83,6 +83,13 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 			Base.removeDescendants( bin );
 		}
 
+		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
+		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
+
+		String coffeeSketchName = "Sketch" + 
+								  sketchID.substring(0,1).toUpperCase() + 
+								  sketchID.substring(1).toLowerCase();
+
 		// use as many spaces as defined in preferences
 		String tabs = String.format( "%" + Preferences.get("editor.tabs.size") + "s", "" );
 		
@@ -102,39 +109,21 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 				{
 					if ( !setupFound ) 
 					{
-						if ( l.replaceAll("[\\s]", "").equals("setup:->") ) 
-						{
-							bigCode.append( tabs + l + "\n" );
-							l = tabs + "injectProcessingApi(@)";
-							setupFound = true;
-						}
+						// if ( l.replaceAll("[\\s]", "").equals("setup:->") ) 
+						// {
+						// 	bigCode.append( tabs + l + "\n" );
+						// 	l = tabs + "injectProcessingApi("+coffeeSketchName+",@)";
+						// 	setupFound = true;
+						// }
 					}
 					bigCode.append( tabs + l + "\n" );
 				}
 			}
 		}
 
-		// generate an ID for the sketch to use with <canvas id="XXXX"></canvas>
-		String sketchID = sketch.getName().replaceAll("[^a-zA-Z0-9]+", "").replaceAll("^[^a-zA-Z]+","");
-
-		String coffeeSketchName = "Sketch" + 
-								  sketchID.substring(0,1).toUpperCase() + 
-								  sketchID.substring(1).toLowerCase();
-		
-		bigCode.append( tabs + "\n" );
-
-		File api = sketch.getMode().getContentFile( "processing-api.coffee" );
-		BufferedReader reader = PApplet.createReader(api);
-		StringBuilder builder = new StringBuilder();
-		String oneLine;
-		while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
-		bigCode.append( builder.toString() );
-		
-		// this is important ... as whitespace is meaningful in CS: it closes the class
-		bigCode.append("\n");
-
 		String coffeeCode = "\n" + "class " + coffeeSketchName + 
-							"\n" + bigCode.toString();
+							"\n" + bigCode.toString() +
+							"\n";
 		
 		// ------------------------------------------
 		// 	PRE-COMPILE
@@ -142,15 +131,40 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		
 		File csCompilerScript = sketch.getMode().getContentFile( 
 									TEMPLATE_FOLDER_NAME + File.separator + "coffee-script.js" );
-		String res = CSCompiler.compile( 
+		File compiledSketchFile = new File( bin, sketch.getName()+"-compiled.js" );
+		String compiledSketch = CSCompiler.compile( 
 			csCompilerScript, 
 			coffeeCode, 
-			new File( bin, sketch.getName()+"-compiled.js" )
+			compiledSketchFile
 		);
-		if ( res == null ) {
+		if ( compiledSketch == null ) {
 			System.out.println( coffeeCode );
 			return false;
 		}
+
+		// ------------------------------------------
+		// 	INJECT Processing API
+		// ------------------------------------------
+
+		// inject Processing API to remove need for "@" ("this") everywhere ..
+
+		// File api = sketch.getMode().getContentFile( "processing-api.js" );
+		// BufferedReader reader = PApplet.createReader(api);
+		// StringBuilder builder = new StringBuilder();
+		// String oneLine;
+		// while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
+		// String apiStr = builder.toString();
+
+		// String sketchHead = coffeeSketchName + " = (function() {";
+		// String compiledInjectedSketch = compiledSketch.replace( sketchHead, sketchHead + "\n" + apiStr + "\n" );
+
+		// PrintWriter writer = PApplet.createWriter( compiledSketchFile );
+		// String[] csLines = compiledInjectedSketch.split( "\n" );
+		// for ( String l : csLines )
+		// {
+		// 	writer.println( l );
+		// }
+		// writer.close();
 
 		// ------------------------------------------
 		// 	ADD FILES
