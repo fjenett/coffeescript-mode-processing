@@ -15,24 +15,24 @@ the boolean value "x" is false, horizontal gray lines are drawn.
 
 setup: ->
     
+    size 640, 360
+    background 0
+    stroke 255
+    
     b = false
     
-    @size 640, 360
-    @background 0
-    @stroke 255
-    
     d = 20
-    middle = @width/2
+    middle = width/2
     
-    for i in [d..@width] by d
+    for i in [d..width] by d
         
         b = if ( i < middle ) then yes else no
         
         if ( b )
             # Vertical line
-            @line i, d, i, @height-d
+            line i, d, i, height-d
   
         unless ( b )
             # Horizontal line
-            @line middle, i - middle + d, @width-d, i - middle + d
+            line middle, i - middle + d, width-d, i - middle + d
  

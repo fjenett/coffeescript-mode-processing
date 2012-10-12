@@ -9,32 +9,32 @@ variables control ring's radii respectively.
 
 setup: ->
     
-    @size 640, 360
-    @background 204
+    size 640, 360
+    background 204
     
-    @x = @width/2
-    @y = @height/2
-    @outerRad = @min( @width, @height) * 0.4
+    @x = width/2
+    @y = height/2
+    @outerRad = min( width, height) * 0.4
     @innerRad = @outerRad * 0.6
 
 draw: ->
     
-    @background 204
+    background 204
     
-    pts = parseInt( @map( @mouseX, 0, @width, 6, 60 ) )
+    pts = parseInt( map( mouseX, 0, width, 6, 60 ) )
     rot = 180.0 / pts
     angle = 0
     
-    @beginShape @TRIANGLE_STRIP
+    beginShape TRIANGLE_STRIP
     for i in [0..pts]
-        px = @x + @cos( @radians angle ) * @outerRad
-        py = @y + @sin( @radians angle ) * @outerRad
+        px = @x + cos( radians angle ) * @outerRad
+        py = @y + sin( radians angle ) * @outerRad
         angle += rot
-        @vertex px, py
-        px = @x + @cos( @radians angle ) * @innerRad
-        py = @y + @sin( @radians angle ) * @innerRad
-        @vertex px, py 
+        vertex px, py
+        px = @x + cos( radians angle ) * @innerRad
+        py = @y + sin( radians angle ) * @innerRad
+        vertex px, py 
         angle += rot
-    @endShape()
+    endShape()
 
 

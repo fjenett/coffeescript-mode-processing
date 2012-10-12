@@ -29,20 +29,20 @@ Example was adapted from the CoffeeScript reference
 
 setup: ->
     
-    @size 400, 400
+    size 400, 400
 
 draw: ->
 
-    @background 90
+    background 90
     
     countdown = (num for num in [9..0])
     
     @drawRect v for v in countdown
     
-    @noLoop()
+    noLoop()
 
 drawRect: (c) ->
     
-    @fill 50 + c * 20
-    @stroke 255 - c * 20
-    @rect c*40, c*40, 40, 40
+    fill 50 + c * 20
+    stroke 255 - c * 20
+    rect c*40, c*40, 40, 40

@@ -8,25 +8,25 @@ is colored in relation to its distance from the center of the image.
 ###
 
 setup: ->
-    @size 640, 360
-    @maxDistance = @dist @width/2, @height/2, @width, @height
+    size 640, 360
+    @maxDistance = dist width/2, height/2, width, height
     @distances = []
-    for y in [0..@height-1]
+    for y in [0...height]
         @distances.push []
         i = @distances.length-1
-        for x in [0..@width-1]
-            distance = @dist @width/2, @height/2, x, y
+        for x in [0...width]
+            distance = dist width/2, height/2, x, y
             @distances[i].push (distance / @maxDistance * 255)
     
     @spacer = 10
-    @noLoop()
+    noLoop()
 
 draw: ->
-    @background 0
-    for y in [0..@height-1] by @spacer
-        for x in [0..@width-1] by @spacer
-            @stroke @distances[y][x]
-            @point x + @spacer/2, y - @spacer/2
+    background 0
+    for y in [0...height] by @spacer
+        for x in [0...width] by @spacer
+            stroke @distances[y][x]
+            point x + @spacer/2, y - @spacer/2
     
     
 

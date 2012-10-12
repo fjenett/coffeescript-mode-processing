@@ -10,23 +10,23 @@ separate ways on the screen.
 ###
 
 setup: ->
-    @size 640, 360
+    size 640, 360
     @coswave = []
-    for i in [0..@width-1]
-        amount = @map i, 0, @width, 0, @PI
-        @coswave.push @abs( @cos( amount ) )
+    for i in [0...width]
+        amount = map i, 0, width, 0, PI
+        @coswave.push abs( cos( amount ) )
     
-    @noLoop
+    noLoop
 
 draw: ->
     for v, i in @coswave
-        @stroke v * 255
-        @line i, 0, i, @height/3
+        stroke v * 255
+        line i, 0, i, height/3
     
     for v, i in @coswave
-        @stroke (v * 255) / 4
-        @line i, @height/3, i, @height/3*2
+        stroke (v * 255) / 4
+        line i, height/3, i, height/3*2
     
     for v, i in @coswave
-        @stroke 255 - v * 255
-        @line i, @height/3*2, i, @height
+        stroke 255 - v * 255
+        line i, height/3*2, i, height

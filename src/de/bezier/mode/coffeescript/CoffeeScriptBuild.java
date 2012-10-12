@@ -432,7 +432,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		
 		// need these ..
 		String[] needed = new String[]{
-			"processing.js", "coffee-script.js", "jquery.js"
+			"processing.js"
 		};
 		
 		// process template replace tokens with content
@@ -461,8 +461,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		} catch (IOException ioe) {
 			final String msg = "There was a problem copying one or more files to the " +
 								 "build folder. You will have to manually add " + 
-								 "processing.js / coffee-script.js / jquery.js to " + 
-								 "the build folder before the sketch will run.";
+								 "processing.js to the build folder before the sketch will run.";
 			Base.showWarning( "There was a problem writing to the build folder", msg, ioe );
 			//return false; 
 		}

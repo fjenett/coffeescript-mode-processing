@@ -18,28 +18,28 @@ featured below.
 
 setup: ->
     
-    @size 640, 360
+    size 640, 360
     
     @words = "Begin..."
     
-    @textFont( @createFont "Gerogia", 36 )
+    textFont( createFont "Gerogia", 36 )
 
 draw: ->
     
-    @background 0
+    background 0
     
     # Draw the letter to the center of the screen
-    @textSize 14
-    @text "Click on the program, then type to add to the String", 50, 50
-    @text "Current key: " + @letter, 50, 70
-    @text "The String is #{@words.length} characters long", 50, 90
+    textSize 14
+    text "Click on the program, then type to add to the String", 50, 50
+    text "Current key: " + @letter, 50, 70
+    text "The String is #{@words.length} characters long", 50, 90
   
-    @textSize 36
-    @text @words, 50, 120, 540, 300
+    textSize 36
+    text @words, 50, 120, 540, 300
     
 keyPressed: ->
     
-    keyString = @key.toString()
+    keyString = key.toString()
         
     # Write the letter to the console
     # console.log keyString

@@ -17,8 +17,8 @@ class Module
             @yDirection *= -1
             @y += @yDirection
 
-    draw: (p) ->
-        p.fill 255
-        p.ellipse @xOffset + @x, @yOffset + @y, 6, 6
+    draw: ->
+        fill 255
+        ellipse @xOffset + @x, @yOffset + @y, 6, 6
 
 

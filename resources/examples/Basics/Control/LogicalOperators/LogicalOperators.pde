@@ -8,36 +8,36 @@ The NOT (!) operator is used to negate a boolean statement.
 
 setup: ->
     
-    @size 640, 360
-    @background 126
+    size 640, 360
+    background 126
     
-    @test = false
+    test = false
     
-    for i in [5..@height] by 5
+    for i in [5..height] by 5
         
-        @stroke 0
+        stroke 0
         
         if ( i > 35 and i < 100 )
             
-            @line @width/4, i, @width/2, i
-            @test = false
+            line width/4, i, width/2, i
+            test = false
         
-        @stroke 76
+        stroke 76
         
         if ( i <= 35 or i >= 100 )
         
-            @line @width/2, i, @width, i
-            @test = true
+            line width/2, i, width, i
+            test = true
         
-        if @test
+        if test
             
-            @stroke 0
-            @point @width/3, i
+            stroke 0
+            point width/3, i
         
-        if not @test
+        if not test
             
-            @stroke 255
-            @point @width/4, i
+            stroke 255
+            point width/4, i
         
     
 
