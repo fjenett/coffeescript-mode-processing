@@ -30,15 +30,33 @@ Now start Processing 2.0 ..
 A simple sketch looks like this:
 
 	setup: ->
-		size 200, 200
+	    size 200, 200
 
 	draw: ->
-		background 255
-	
-		fill 0
-		stroke 120
-	
-		rect 20, 20, width/2, height/2
+	    background 255
+	    
+	    fill 0
+	    stroke 120
+	    
+	    rect 20, 20, width/2, height/2
+
+
+***Some specialties***
+
+Beloved "pixels" is an object in CS mode, not an array:
+pixels.length 		pixels.getLength()
+= pixels[i]			pixels.getPixel(index)
+pixels[i] = 		pixels.setPixel(index, color)
+...
+
+Image preloading does currently not work out of the box, you will need to check if they are loaded:
+img = loadImage "myfunkyimage.jpg"
+...
+if img.loaded
+	doSomethingWithItHere()
+
+See Examples > Basic > Image > ...
+Or use requestImage().
 
 
 ***How does it work?***

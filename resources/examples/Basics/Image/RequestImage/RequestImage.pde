@@ -38,7 +38,7 @@ draw: ->
     for i in [0...@imgs.length]
         
         # Check if individual images are fully loaded
-        if ( (@imgs[i].width != 0) and (@imgs[i].width != -1) )
+        if @imgs[i].loaded
             
             # As images are loaded set true in boolean array
             @loadStates[i] = yes

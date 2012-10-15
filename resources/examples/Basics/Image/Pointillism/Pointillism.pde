@@ -20,9 +20,10 @@ setup: ->
 
 draw: ->
     
-    pointillize = map mouseX, 0, width, @smallPoint, @largePoint
-    x = parseInt random @img.width
-    y = parseInt random @img.height
-    pix = @img.get x, y
-    fill pix, 128
-    ellipse x, y, pointillize, pointillize
+    if @img.loaded
+        pointillize = map mouseX, 0, width, @smallPoint, @largePoint
+        x = parseInt random @img.width
+        y = parseInt random @img.height
+        pix = @img.get x, y
+        fill pix, 128
+        ellipse x, y, pointillize, pointillize
