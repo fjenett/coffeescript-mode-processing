@@ -43,12 +43,14 @@ A simple sketch looks like this:
 
 ***Some specialties***
 
+**pixels array**
 Beloved "pixels" is an object in CS mode, not an array:
 pixels.length 		pixels.getLength()
 = pixels[i]			pixels.getPixel(index)
 pixels[i] = 		pixels.setPixel(index, color)
 ...
 
+**Image preloading**
 Image preloading does currently not work out of the box, you will need to check if they are loaded:
 img = loadImage "myfunkyimage.jpg"
 ...
@@ -57,6 +59,10 @@ if img.loaded
 
 See Examples > Basic > Image > ...
 Or use requestImage().
+
+**Indentation**
+
+In CoffeeScript [whitespace is meaningful](http://coffeescript.org/#language). Sometimes copy-pasting code or unthoughtfully typing away will result in an exception.
 
 
 ***How does it work?***

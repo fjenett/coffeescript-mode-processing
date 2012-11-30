@@ -46,7 +46,7 @@ public class CSTokenMarker extends PdeKeywords
 		
 		//System.out.println( keyword + " " + id );
 
-    	keywordColoring.add( keyword, id );
+    	keywordColoring.add( keyword, id, false );
   	}
 
 	/**
@@ -214,8 +214,10 @@ public class CSTokenMarker extends PdeKeywords
 	{
     	int i1 = i + 1;
 
+    	boolean paren = checkParen(line.array, i, line.array.length);
+
     	int len = i - lastKeyword;
-    	byte id = keywordColoring.lookup( line, lastKeyword, len );
+    	byte id = keywordColoring.lookup( line, lastKeyword, len, paren );
 
 		if ( id == 10 && tabDepth == 0 ) id = 7; // fix function names
 		
@@ -246,4 +248,24 @@ public class CSTokenMarker extends PdeKeywords
     	lastKeyword = i1;
     	return false;
 	}
+
+    // See PdeKeywords.java
+    private boolean checkParen ( char[] array, int index, int stop ) 
+    {
+        while (index < stop) {
+            switch (array[index]) {
+                case '(':
+                    return true;
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    index++;
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return false;
+    }
 }

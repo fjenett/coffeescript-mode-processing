@@ -3,6 +3,7 @@ package de.bezier.mode.coffeescript;
 import processing.mode.javascript.ServingEditor;
 
 import processing.app.Base;
+import processing.app.Toolkit;
 import processing.app.EditorState;
 import processing.app.Editor;
 import processing.app.Mode;
@@ -100,7 +101,7 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	public JMenu buildFileMenu () 
 	{
-		JMenuItem exportItem = Base.newJMenuItem("Export", 'E');
+		JMenuItem exportItem = Toolkit.newJMenuItem("Export", 'E');
 		exportItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				handleExport( true );
@@ -116,14 +117,14 @@ public class CoffeeScriptEditor extends ServingEditor
 	 */
 	public JMenu buildSketchMenu () 
 	{
-		JMenuItem startServerItem = Base.newJMenuItem("Run in Browser", 'R');
+		JMenuItem startServerItem = Toolkit.newJMenuItem("Run in Browser", 'R');
 		startServerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					handleStartServer();
 				}
 			});
 
-		JMenuItem openInBrowserItem = Base.newJMenuItem("Reopen in Browser", 'B');
+		JMenuItem openInBrowserItem = Toolkit.newJMenuItem("Reopen in Browser", 'B');
 		openInBrowserItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					handleOpenInBrowser();

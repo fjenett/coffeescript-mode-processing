@@ -26,8 +26,8 @@
 
 	<path id="library-classpath">
 		<fileset dir="${processing.classes}" >
-			<include name="core.jar" />
-			<include name="pde.jar" />
+			<include name="core/library/core.jar" />
+			<include name="lib/pde.jar" />
 		</fileset>
 		<fileset dir="lib" >
 			<include name="js.jar" />
