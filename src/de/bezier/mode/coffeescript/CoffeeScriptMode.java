@@ -43,23 +43,35 @@ public class CoffeeScriptMode extends JavaScriptMode
 		
 		coffeeTokenMarker = new CSTokenMarker();
 		
-		try {
-			loadAdditionalKeywords( 
-				new File( base.getContentFile("modes/java"), "keywords.txt" ),
-				coffeeTokenMarker
-			);
-			loadAdditionalKeywords( 
-				new File( base.getContentFile("modes/javascript"), "keywords.txt" ),
-				coffeeTokenMarker
-			);
-			loadAdditionalKeywords( 
-				new File( folder, "keywords.txt" ),
-				coffeeTokenMarker
-			);
-		} catch (IOException e) {
-	    	Base.showError( "Problem loading keywords",
-	                   		"Could not load keywords.txt, please re-install CoffeeScript mode.", e);
-		}
+		// try {
+		// 	loadAdditionalKeywords( 
+		// 		new File( base.getContentFile("modes/java"), "keywords.txt" ),
+		// 		coffeeTokenMarker
+		// 	);
+		// 	loadAdditionalKeywords( 
+		// 		new File( base.getContentFile("modes/javascript"), "keywords.txt" ),
+		// 		coffeeTokenMarker
+		// 	);
+		// 	loadAdditionalKeywords( 
+		// 		new File( folder, "keywords.txt" ),
+		// 		coffeeTokenMarker
+		// 	);
+		// } catch (IOException e) {
+	 //    	Base.showError( "Problem loading keywords",
+	 //                   		"Could not load keywords.txt, please re-install CoffeeScript mode.", e);
+		// }
+	}
+
+	/**
+	 *	Called to get the keyword files to be loaded
+	 */
+	public File[] getKeywordFiles ()
+	{
+		return new File[]{
+			Base.getContentFile("modes/java/keywords.txt"),
+			Base.getContentFile("modes/javascript/keywords.txt"),
+			new File( folder, "keywords.txt" )
+		};
 	}
 	
 	/**
