@@ -64,6 +64,9 @@ Or use requestImage().
 
 In CoffeeScript [whitespace is meaningful](http://coffeescript.org/#language). Sometimes copy-pasting code or unthoughtfully typing away will result in an exception.
 
+**Advanced Notes***
+
+You can import additional JS libraries (e.g. dat.GUI) into your sketch just by including it in the sketch folder. The script gets automatically included after your sketch in `<head>`.
 
 ***How does it work?***
 
