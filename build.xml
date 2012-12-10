@@ -105,6 +105,12 @@
 			<fileset dir="${dist}" />
 		</copy>
 		
+		<zip destfile="release/${lib.name}.zip"
+	  	     basedir="${dist}"
+	  	     excludes="**/_DS.Store"
+		/>
+
+		<delete dir="${dist}" />
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
