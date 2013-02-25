@@ -90,7 +90,8 @@
 		    <zipgroupfileset dir="lib" includes="*.jar" />
 		</zip-->
 		<copy todir="${dist}/mode">
-			<fileset file="lib/js.jar" />
+			<fileset file="${javascript-mode}/js.jar" />
+			<fileset file="${javascript-mode}/JavaScriptMode.jar" />
 		</copy>
 		
 		<copy todir="${dist}">
