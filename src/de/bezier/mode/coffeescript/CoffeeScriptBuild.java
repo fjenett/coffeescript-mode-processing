@@ -1,9 +1,9 @@
 package de.bezier.mode.coffeescript;
 
 import de.bezier.mode.coffeescript.compiler.*;
+import de.bezier.mode.javascript.JavaScriptBuild;
 
 import processing.core.PApplet;
-import processing.mode.javascript.JavaScriptBuild;
 
 import processing.app.Base;
 import processing.app.Mode;

@@ -14,31 +14,47 @@
 	<property name="build" 		value="build" />
 	<property name="bin" 		value="bin" />
 	<property name="dist" 		value="dist" />
-	<property name="release" 	value="0.0.2" />
+	<property name="release" 	value="0.0.3" />
 	<property name="lib.name" 	value="CoffeeScriptMode" />
 	<property name="java.target.version" 
 								value="1.5" />
+
+	<!-- + + + + + + +
+	+
+	+	This is really all you should need to edit to compile this ..
+	+
+	+ + + + + + + -->
 	
-	<!-- property name="processing.classes" location="/Applications/Processing.app/Contents/Resources/Java/"/ -->
-	<property name="processing.classes" location="/Users/fjenett/Repos/processing/processing/build/macosx/work/Processing.app/Contents/Resources/Java/" />
-	<!--property name="processing.classes" location="/Users/fjenett/Downloads/Processing.app/Contents/Resources/Java/"/ -->
-	<property name="processing.modes" location="/Users/fjenett/Documents/Processing/modes"/>	
+	<property name="processing.classes" 
+			  location="/Users/fjenett/Desktop/Processing-2.0b8.app/Contents/Resources/Java/" />
+
+	<property name="processing.modes" 
+			  location="/Users/fjenett/Documents/Processing/modes"/>
+	
+	<!-- + + + + + + + + -->
+
+	<property name="javascript-mode"
+			  location="${processing.modes}/JavaScriptMode/mode" />
 
 	<path id="library-classpath">
+
 		<fileset dir="${processing.classes}" >
 			<include name="core/library/core.jar" />
 			<include name="lib/pde.jar" />
 		</fileset>
-		<fileset dir="lib" >
-			<include name="js.jar" />
+
+		<fileset dir="${javascript-mode}">
+			<include name="JavaScriptMode.jar" />
+			<include name="js.jar" /> <!-- Rhino 1.7 -->
 		</fileset>
+
 	</path>
 	
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
 		HELP
 	- - - - - - - - - - - - - - - - - - - - - - - -->
 	<target name="help">
-		<echo>HEELP!</echo>
+		<echo>Needs some help instructions, i know ...</echo>
 	</target>
 	
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
@@ -74,7 +90,8 @@
 		    <zipgroupfileset dir="lib" includes="*.jar" />
 		</zip-->
 		<copy todir="${dist}/mode">
-			<fileset file="lib/js.jar" />
+			<fileset file="${javascript-mode}/js.jar" />
+			<fileset file="${javascript-mode}/JavaScriptMode.jar" />
 		</copy>
 		
 		<copy todir="${dist}">
@@ -100,13 +117,13 @@
 			<fileset dir="${dist}" />
 		</copy>
 		
-		<delete dir="CoffeeScriptMode" />
-		<copy todir="CoffeeScriptMode">
+		<delete dir="${lib.name}" />
+		<copy todir="${lib.name}">
 			<fileset dir="${dist}" />
 		</copy>
 		
 		<zip destfile="release/${lib.name}.zip"
-	  	     basedir="${dist}"
+	  	     basedir="${lib.name}"
 	  	     excludes="**/_DS.Store"
 		/>
 		<copy tofile="release/${lib.name}.txt">
@@ -122,7 +139,7 @@
 	<target name="clean" >
 
 		<delete dir="${bin}" />
-		<delete dir="CoffeeScriptMode" />
+		<delete dir="${lib.name}" />
 
 	</target>
 

@@ -3,6 +3,10 @@ bin
 build
 dist
 
+CoffeeScriptMode/
+
+lib/build.number
+
 todo.txt
 
 .svn
