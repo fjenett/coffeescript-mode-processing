@@ -11,6 +11,8 @@ import processing.app.EditorToolbar;
 import processing.app.Formatter;
 import processing.app.Sketch;
 import processing.app.SketchCode;
+import processing.app.Settings;
+import processing.app.Preferences;
 import processing.app.syntax.*;
 
 import java.io.File;
@@ -24,6 +26,8 @@ import javax.swing.text.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.IOException;
 
 /**
  *	This is the actual editor implementation, one editor is opened per sketch.
@@ -42,6 +46,8 @@ public class CoffeeScriptEditor extends ServingEditor
 		processing.mode.java.PdeKeyListener listener = new processing.mode.java.PdeKeyListener( this, textarea );
 
 		csMode = (CoffeeScriptMode)mode;
+
+		checkTabSettings();
 	}
 	
 	// ------------------------------------------
@@ -442,6 +448,8 @@ public class CoffeeScriptEditor extends ServingEditor
 		toolbar.activate(CoffeeScriptToolbar.SAVE);
 		super.handleSave(true);
 		toolbar.deactivate(CoffeeScriptToolbar.SAVE);
+
+		checkTabSettings();
 	}
 
 	/**
@@ -474,6 +482,46 @@ public class CoffeeScriptEditor extends ServingEditor
 			});
 		}
 		return true;
+	}
+
+	/**
+	 *
+	 */
+	private void checkTabSettings ()
+	{
+		File sketchProps = getSketchPropertiesFile();
+		Settings settings;
+
+		try {
+			settings = new Settings(sketchProps);
+		} catch ( IOException ioe ) {
+			ioe.printStackTrace();
+			return;
+		}
+		if ( settings == null )
+		{
+			statusError( "Unable to create sketch properties file!" );
+			return;
+		}
+
+		String sketchTabs = settings.get( "coffee.editor.tabs.size" );
+		String userTabs = Preferences.get( "editor.tabs.size" );
+
+		if ( sketchTabs != null ) 
+		{
+			if ( !sketchTabs.equals( userTabs ) )
+			{
+				// TODO: make this an alert?
+				// how can it be fixed?
+				// System.err.println( "The current sketch has not the same tab setting as your editor" );
+			}
+		}
+		else
+		{
+			settings.set( "mode", "de.bezier.mode.coffeescript.CoffeeScriptMode" );
+			settings.set( "coffee.editor.tabs.size", userTabs );
+			settings.save();
+		}
 	}
 
 	/**
