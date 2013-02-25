@@ -121,16 +121,16 @@
 		<copy todir="${lib.name}">
 			<fileset dir="${dist}" />
 		</copy>
-		
-		<zip destfile="release/${lib.name}.zip"
-	  	     basedir="${lib.name}"
-	  	     excludes="**/_DS.Store"
-		/>
+
+		<zip destfile="release/${lib.name}.zip" >
+			<zipfileset dir="${dist}" prefix="${lib.name}/${lib.name}" excludes="**/_DS.Store" />
+		</zip>
 		<copy tofile="release/${lib.name}.txt">
 			<fileset file="${dist}/mode.properties" />
 		</copy>
 
 		<delete dir="${dist}" />
+		<!-- delete dir="install" / -->
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
