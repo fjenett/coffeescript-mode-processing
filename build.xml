@@ -123,7 +123,7 @@
 		</copy>
 
 		<zip destfile="release/${lib.name}.zip" >
-			<zipfileset dir="${dist}" prefix="${lib.name}/${lib.name}" excludes="**/_DS.Store" />
+			<zipfileset dir="${dist}" excludes="**/_DS.Store" />
 		</zip>
 		<copy tofile="release/${lib.name}.txt">
 			<fileset file="${dist}/mode.properties" />
