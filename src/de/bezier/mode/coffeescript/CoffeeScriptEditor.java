@@ -1,6 +1,6 @@
 package de.bezier.mode.coffeescript;
 
-import processing.mode.javascript.ServingEditor;
+import de.bezier.mode.javascript.ServingEditor;
 
 import processing.app.Base;
 import processing.app.Toolkit;

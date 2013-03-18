@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 
 import java.util.HashMap;
 
-import processing.mode.javascript.JavaScriptMode;
+import de.bezier.mode.javascript.JavaScriptMode;
 
 import processing.app.Base;
 import processing.app.Editor;
