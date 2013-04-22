@@ -40,6 +40,8 @@ public class CoffeeScriptMode extends JavaScriptMode
 	public CoffeeScriptMode ( Base base, File folder )
 	{
 		super( base, folder );
+
+		System.out.println( folder );
 		
 		coffeeTokenMarker = new CSTokenMarker();
 		
@@ -69,7 +71,7 @@ public class CoffeeScriptMode extends JavaScriptMode
 	{
 		return new File[]{
 			Base.getContentFile("modes/java/keywords.txt"),
-			Base.getContentFile("modes/javascript/keywords.txt"),
+			//Base.getContentFile("modes/javascript/keywords.txt"),
 			new File( folder, "keywords.txt" )
 		};
 	}
