@@ -245,17 +245,17 @@ public class CoffeeScriptEditor extends ServingEditor
 		// });
 		// menu.add(item);
 
-			// OSX has its own about menu
-			if (!Base.isMacOS()) {
-				menu.addSeparator();
-				item = new JMenuItem("About Processing");
-				item.addActionListener( new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						base.handleAbout();
-					}
-				});
-				menu.add(item);
-			}
+			// // OSX has its own about menu
+			// if (!Base.isMacOS()) {
+			// 	menu.addSeparator();
+			// 	item = new JMenuItem("About Processing");
+			// 	item.addActionListener( new ActionListener() {
+			// 		public void actionPerformed(ActionEvent e) {
+			// 			base.handleAbout();
+			// 		}
+			// 	});
+			// 	menu.add(item);
+			// }
 
 		return menu;
 	}
