@@ -91,7 +91,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 								  sketchID.substring(1).toLowerCase();
 
 		// use as many spaces as defined in preferences
-		String tabs = String.format( "%" + Preferences.get("editor.tabs.size") + "s", "" );
+		String oneTab = String.format( "%" + ((CoffeeScriptMode)mode).getEditor().getSketchTabsSize() + "s", " " );
 		
 		StringBuffer bigCode = new StringBuffer();
 		String modeExt = mode.getDefaultExtension(); // only loads the .pde files
@@ -114,14 +114,14 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 							String indent = "";
 							int indentSetup = l.indexOf("setup");
 							if ( indentSetup > 0 ) {
-								indent = String.format( "%" + indentSetup + "s", "" );
+								indent = String.format( "%" + indentSetup + "s", " " );
 							}
-							bigCode.append( tabs + indent + l + "\n" );
-							l = tabs + "injectProcessingApi(@)";
+							bigCode.append( oneTab + indent + l + "\n" );
+							l = oneTab + "injectProcessingApi(@)";
 							setupFound = true;
 						}
 					}
-					bigCode.append( tabs + l + "\n" );
+					bigCode.append( oneTab + l + "\n" );
 				}
 			}
 		}
@@ -157,7 +157,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		BufferedReader reader = PApplet.createReader(api);
 		StringBuilder builder = new StringBuilder();
 		String oneLine;
-		while ((oneLine = reader.readLine()) != null) builder.append( tabs + oneLine.replaceAll("\r","\n") + "\n" );
+		while ((oneLine = reader.readLine()) != null) builder.append( oneTab + oneLine.replaceAll("\r","\n") + "\n" );
 		String apiStr = builder.toString();
 
 		String sketchHead = coffeeSketchName + " = (function() {";

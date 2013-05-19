@@ -21,7 +21,7 @@ public class CSCompiler extends Thread
 	private String source, result;
 	
 	/**
-	 *	Takes coffee-script.js, a sourceFile and a target file.
+	 *	Takes coffee-script.js, a source file and a target file.
 	 *
 	 *	@return the compiled js code
 	 */

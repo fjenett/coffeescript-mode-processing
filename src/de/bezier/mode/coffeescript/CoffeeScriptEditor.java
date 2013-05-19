@@ -38,6 +38,7 @@ import java.io.IOException;
 public class CoffeeScriptEditor extends ServingEditor
 {	
 	CoffeeScriptMode csMode;
+	String sketchTabsSize = "4";
 	
 	protected CoffeeScriptEditor ( Base base, String path, EditorState state, Mode mode ) 
 	{	
@@ -504,22 +505,25 @@ public class CoffeeScriptEditor extends ServingEditor
 			return;
 		}
 
-		String sketchTabs = settings.get( "coffee.editor.tabs.size" );
-		String userTabs = Preferences.get( "editor.tabs.size" );
+		sketchTabsSize = settings.get( "coffee.editor.tabs.size" );
+		String editorTabsSize = Preferences.get( "editor.tabs.size" );
 
-		if ( sketchTabs != null ) 
+		if ( sketchTabsSize != null ) 
 		{
-			if ( !sketchTabs.equals( userTabs ) )
+			if ( !sketchTabsSize.equals( editorTabsSize ) )
 			{
 				// TODO: make this an alert?
 				// how can it be fixed?
-				// System.err.println( "The current sketch has not the same tab setting as your editor" );
+				System.err.println(
+					String.format( "This sketch \"%s\" has a different tab setting as your editor", getSketch().getName() ));
 			}
 		}
 		else
 		{
+			sketchTabsSize = editorTabsSize;
+
 			settings.set( "mode", "de.bezier.mode.coffeescript.CoffeeScriptMode" );
-			settings.set( "coffee.editor.tabs.size", userTabs );
+			settings.set( "coffee.editor.tabs.size", editorTabsSize );
 			settings.save();
 		}
 	}
@@ -589,6 +593,14 @@ public class CoffeeScriptEditor extends ServingEditor
 	// ------------------------------------------
 	//  OTHER STUFF
 	// ------------------------------------------
+
+	/**
+	 *
+	 */
+	public int getSketchTabsSize ()
+	{
+		return Integer.parseInt(sketchTabsSize);
+	}
 
 	/**
 	 *	

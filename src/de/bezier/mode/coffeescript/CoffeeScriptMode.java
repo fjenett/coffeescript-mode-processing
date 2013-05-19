@@ -22,7 +22,7 @@ import processing.core.PApplet;
 import de.bezier.mode.coffeescript.syntax.CSTokenMarker;
 
 /**
- *	CoffeeScript mode for Processing IDE 2.0alpha5 or later.
+ *	CoffeeScript mode for Processing IDE 2.0beta7 or later.
  *
  *	This heavily builds upon JavaScript mode, you might want to 
  *	check that out as well: <a href="http://code.google.com/p/processing/source/browse/trunk/processing/app/src/processing/mode/javascript/JavaScriptMode.java">JavaScriptMode</a>
@@ -33,6 +33,10 @@ public class CoffeeScriptMode extends JavaScriptMode
 {
 	private CoffeeScriptEditor csEditor;
 	private CSTokenMarker coffeeTokenMarker;
+
+	private String build = "@@version@@";
+	private String buildDate = "@@build-date@@";
+	private String version = "@@pretty-version@@";
 	
 	/**
 	 *	Constructor called by Processing IDE to start this mode.
@@ -41,27 +45,9 @@ public class CoffeeScriptMode extends JavaScriptMode
 	{
 		super( base, folder );
 
-		System.out.println( folder );
+		System.out.println( String.format( "CoffeeScript mode version %s - %s built on %s", version, build, buildDate ) );
 		
 		coffeeTokenMarker = new CSTokenMarker();
-		
-		// try {
-		// 	loadAdditionalKeywords( 
-		// 		new File( base.getContentFile("modes/java"), "keywords.txt" ),
-		// 		coffeeTokenMarker
-		// 	);
-		// 	loadAdditionalKeywords( 
-		// 		new File( base.getContentFile("modes/javascript"), "keywords.txt" ),
-		// 		coffeeTokenMarker
-		// 	);
-		// 	loadAdditionalKeywords( 
-		// 		new File( folder, "keywords.txt" ),
-		// 		coffeeTokenMarker
-		// 	);
-		// } catch (IOException e) {
-	 //    	Base.showError( "Problem loading keywords",
-	 //                   		"Could not load keywords.txt, please re-install CoffeeScript mode.", e);
-		// }
 	}
 
 	/**
@@ -91,25 +77,6 @@ public class CoffeeScriptMode extends JavaScriptMode
 	 */
 	public Editor createEditor ( Base base, String path, EditorState state )
 	{
-		// if ( path != null && !path.endsWith(".coffee") ) 
-		// {
-		// 	String cPath = path.replace(".pde", ".coffee");
-		// 	File cFile = new File( cPath );
-		// 	if ( !cFile.exists() ) 
-		// 	{
-		// 		try {
-		// 			if ( !cFile.createNewFile() ) 
-		// 			{
-		// 				System.err.println( "CoffeeScriptMode: " + 
-		// 									"unable to create .coffee file for .pde file at:\n" + 
-		// 									cPath );
-		// 			}
-		// 		} catch ( java.io.IOException ioe ) {
-		// 			ioe.printStackTrace();
-		// 		}
-		// 	}
-		// 	path = cPath;
-		// }
 	 	csEditor = new CoffeeScriptEditor( base, path, state, this );
 		return csEditor;
 	}
@@ -174,5 +141,13 @@ public class CoffeeScriptMode extends JavaScriptMode
 	{
 		CoffeeScriptBuild build = new CoffeeScriptBuild( sketch );
 		return build.export();
+	}
+
+	/**
+	 *
+	 */
+	public CoffeeScriptEditor getEditor ()
+	{
+		return csEditor;
 	}
 }

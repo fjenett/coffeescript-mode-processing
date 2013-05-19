@@ -10,7 +10,7 @@
 	
 	</description>
 	
-	<property name="src" 		value="src" />
+	<property name="src" 		value="src-versioned" />
 	<property name="build" 		value="build" />
 	<property name="bin" 		value="bin" />
 	<property name="dist" 		value="dist" />
@@ -49,6 +49,8 @@
 		</fileset>
 
 	</path>
+
+	<tstamp />
 	
 	<!-- - - - - - - - - - - - - - - - - - - - - - -
 		HELP
@@ -67,12 +69,27 @@
 		<mkdir dir="${build}" />
 		<delete dir="${bin}" />
 		<mkdir dir="${bin}" />
+
+		<delete dir="src-versioned" />
+		<mkdir dir="src-versioned" />
+		<copy todir="src-versioned">
+			<fileset dir="src" />
+		</copy>
+		
+		<replaceregexp file="${src}/de/bezier/mode/coffeescript/CoffeeScriptMode.java" flags="g"
+  					   match="@@version@@" replace="${build.number}" />
+		<replaceregexp file="${src}/de/bezier/mode/coffeescript/CoffeeScriptMode.java" flags="g"
+  					   match="@@build-date@@" replace="${TODAY}" />
+		<replaceregexp file="${src}/de/bezier/mode/coffeescript/CoffeeScriptMode.java" flags="g"
+  					   match="@@pretty-version@@" replace="${release}" />
 		
 		<javac srcdir="${src}" destdir="${bin}" source="${java.target.version}">
 			<classpath>
 				<path refid="library-classpath"/>
 			</classpath>
 		</javac>
+		
+		<delete dir="src-versioned" />
 		
 	</target>
 	
