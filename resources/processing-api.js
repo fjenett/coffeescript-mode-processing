@@ -1,14 +1,109 @@
 
 /*
- |  Automatically added code to allow for Processing API to "just work"
- |  ... as it removes the need for "@" signs everywhere. A call to 
- |  injectProcessingApi(this) is being added to top of your setup() method.
- */
-var ADD = ALIGN_CENTER = ALIGN_LEFT = ALIGN_RIGHT = ALPHA = ALPHA_MASK = ALT = AMBIENT = ARGB = ARROW = BACKSPACE = BASELINE = BEVEL = BLEND = BLUE_MASK = BLUR = BOTTOM = BURN = CENTER = CHATTER = CLOSE = CMYK = CODED = COMPLAINT = COMPONENT = COMPOSITE = CONCAVE_POLYGON = CONTROL = CONVEX_POLYGON = CORNER = CORNERS = CROSS = CUSTOM = DARKEST = DEGREES = DEG_TO_RAD = DELETE = DIAMETER = DIFFERENCE = DIFFUSE = DILATE = DIRECTIONAL = DISABLED = DODGE = DOWN = DXF = ENTER = EPSILON = ERODE = ESC = EXCLUSION = GIF = GRAY = GREEN_MASK = GROUP = HALF = HALF_PI = HAND = HARD_LIGHT = HINT_COUNT = HSB = IMAGE = INVERT = JAVA2D = JPEG = LEFT = LIGHTEST = LINES = LINUX = MACOSX = MAX_FLOAT = MAX_INT = MITER = MODEL = MOVE = MULTIPLY = NORMAL = NORMALIZED = NO_DEPTH_TEST = NTSC = ONE = OPAQUE = OPEN = OPENGL = ORTHOGRAPHIC = OVERLAY = P2D = P3D = PAL = PDF = PERSPECTIVE = PI = PIXEL_CENTER = POINT = POINTS = POSTERIZE = PROBLEM = PROJECT = QUADS = QUAD_STRIP = QUARTER_PI = RADIANS = RADIUS = RAD_TO_DEG = RED_MASK = REPLACE = RETURN = RGB = RIGHT = ROUND = SCREEN = SECAM = SHIFT = SOFT_LIGHT = SPECULAR = SQUARE = SUBTRACT = SVIDEO = TAB = TARGA = TEXT = TFF = THIRD_PI = THRESHOLD = TIFF = TOP = TRIANGLES = TRIANGLE_FAN = TRIANGLE_STRIP = TUNER = TWO = TWO_PI = UP = WAIT = WHITESPACE = XML = /* + + + + + + + + + + + + + + classes + + + + + + + + + + + + + */ArrayList = BufferedReader = Character = HashMap = Integer = PFont = PGraphics = PImage = PShader = PShape = PVector = PrintWriter = StringBuffer = /* + + + + + + + + + + + + + + functions + + + + + + + + + + + + + */abs = acos = addChild = alpha = ambient = ambientLight = append = applyMatrix = arc = asin = atan = atan2 = background = beginCamera = beginContour = beginRaw = beginRecord = beginShape = bezier = bezierDetail = bezierPoint = bezierTangent = bezierVertex = binary = bind = blend = blendColor = blendMode = blue = box = breakShape = brightness = cache = camera = ceil = clip = color = colorMode = concat = constrain = copy = cos = createFont = createGraphics = createImage = createInput = createOutput = createPath = createReader = createShape = createWriter = cursor = curve = curveDetail = curvePoint = curveTangent = curveTightness = curveVertex = day = degrees = directionalLight = dist = draw = ellipse = ellipseMode = emissive = end = endCamera = endContour = endRaw = endRecord = endShape = exit = exp = expand = fill = filter = floor = focused = frameRate = frustum = get = green = hex = hint = hour = hue = image = imageMode = join = keyPressed = keyReleased = keyTyped = lerp = lerpColor = lightFalloff = lightSpecular = lights = line = loadBytes = loadFont = loadImage = loadMatrix = loadPixels = loadShader = loadShape = loadStrings = loadType = log = loop = mag = map = match = matchAll = max = millis = min = minute = modelX = modelY = modelZ = month = mouseButton = mouseClicked = mouseDragged = mouseMoved = mousePressed = mouseReleased = nf = nfc = nfp = nfs = noClip = noCursor = noFill = noHint = noLights = noLoop = noSmooth = noStroke = noTint = noise = noiseDetail = noiseSeed = norm = normal = open = openStream = ortho = parseByte = perspective = point = pointLight = popMatrix = popStyle = pow = print = printCamera = printMatrix = printProjection = println = pushMatrix = pushStyle = quad = quadraticVertex = radians = random = randomSeed = rect = rectMode = red = redraw = requestImage = resetMatrix = resetShader = reverse = rotate = rotateX = rotateY = rotateZ = round = saturation = save = saveBytes = saveFile = saveFrame = savePath = saveStream = saveStrings = saveType = scale = screenX = screenY = screenZ = second = selectFolder = selectInput = selectOutput = set = setup = shader = shape = shapeMode = shearX = shearY = shininess = shorten = sin = size = sketchFile = sketchPath = smooth = sort = specular = sphere = sphereDetail = splice = split = splitTokens = spotLight = sq = sqrt = start = stop = stroke = strokeCap = strokeJoin = strokeWeight = subset = tan = text = textAlign = textAscent = textDescent = textFont = textLeading = textMode = textSize = textWidth = texture = textureMode = tint = translate = triangle = trim = unbinary = unhex = updatePixels = vertex = year = displayHeight = displayWidth = frameCount = frameRate = height = key = keyCode = keyPressed = mousePressed = mouseX = mouseY = online = pixels = pmouseX = pmouseY = screenHeight = screenWidth = width = null;
+ +    Automatically added code to allow for Processing API to "just work"
+ +    ... as it removes the need for "@" signs everywhere. A call to 
+ +    injectProcessingApi(this) is being added to top of your setup() method.
+ +
+ +    This file is being minified using Google closure:
+ +    $ closure --js processing-api.js --js_output_file processing-api-min.js
+ + 
+ +    It is later added to the head of the generated JavaScript file 
+ +    "SketchName_compiled.js" and a iffy is added to setup to inject it into the 
+ +    sketch instance. Quite complicated, oh boy!
+ +
+ L + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
+
+var ADD = ALIGN_CENTER = ALIGN_LEFT = ALIGN_RIGHT = ALPHA = ALPHA_MASK = ALT = AMBIENT = ARGB = ARROW = 
+    BACKSPACE = BASELINE = BEVEL = BLEND = BLUE_MASK = BLUR = BOTTOM = BURN = 
+    CENTER = CHATTER = CLOSE = CMYK = CODED = COMPLAINT = COMPONENT = COMPOSITE = CONCAVE_POLYGON = CONTROL = 
+        CONVEX_POLYGON = CORNER = CORNERS = CROSS = CUSTOM = 
+    DARKEST = DEGREES = DEG_TO_RAD = DELETE = DIAMETER = DIFFERENCE = DIFFUSE = DILATE = DIRECTIONAL = 
+        DISABLED = DODGE = DOWN = DXF = 
+    ENTER = EPSILON = ERODE = ESC = EXCLUSION = 
+    GIF = GRAY = GREEN_MASK = GROUP = 
+    HALF = HALF_PI = HAND = HARD_LIGHT = HINT_COUNT = HSB = 
+    IMAGE = INVERT = 
+    JAVA2D = JPEG = 
+    LEFT = LIGHTEST = LINES = LINUX = 
+    MACOSX = MAX_FLOAT = MAX_INT = MITER = MODEL = MOVE = MULTIPLY = 
+    NORMAL = NORMALIZED = NO_DEPTH_TEST = NTSC = 
+    ONE = OPAQUE = OPEN = OPENGL = ORTHOGRAPHIC = OVERLAY = 
+    P2D = P3D = PAL = PDF = PERSPECTIVE = PI = PIXEL_CENTER = POINT = POINTS = POSTERIZE = PROBLEM = PROJECT = 
+    QUADS = QUAD_STRIP = QUARTER_PI = 
+    RADIANS = RADIUS = RAD_TO_DEG = RED_MASK = REPLACE = RETURN = RGB = RIGHT = ROUND = 
+    SCREEN = SECAM = SHIFT = SOFT_LIGHT = SPECULAR = SQUARE = SUBTRACT = SVIDEO = 
+    TAB = TARGA = TEXT = TFF = THIRD_PI = THRESHOLD = TIFF = TOP = TRIANGLES = TRIANGLE_FAN = TRIANGLE_STRIP = 
+        TUNER = TWO = TWO_PI = 
+    UP = 
+    WAIT = WHITESPACE = 
+    XML = 
+    /* + + + + + + + + + + + + + + classes + + + + + + + + + + + + + */
+    ArrayList = 
+    BufferedReader = 
+    Character = 
+    HashMap = 
+    Integer = 
+    PFont = PGraphics = PImage = PShader = PShape = PVector = PrintWriter = 
+    StringBuffer = 
+    /* + + + + + + + + + + + + + + functions + + + + + + + + + + + + + */
+    abs = acos = addChild = alpha = ambient = ambientLight = append = applyMatrix = arc = asin = atan = atan2 = 
+    background = beginCamera = beginContour = beginRaw = beginRecord = beginShape = bezier = bezierDetail = 
+        bezierPoint = bezierTangent = bezierVertex = binary = bind = blend = blendColor = blendMode = blue = 
+        box = breakShape = brightness = 
+    cache = camera = ceil = clip = color = colorMode = concat = constrain = copy = cos = createFont = 
+        createGraphics = createImage = createInput = createOutput = createPath = createReader = createShape = 
+        createWriter = cursor = curve = curveDetail = curvePoint = curveTangent = curveTightness = curveVertex = 
+    day = degrees = directionalLight = dist = draw = 
+    ellipse = ellipseMode = emissive = end = endCamera = endContour = endRaw = endRecord = endShape = 
+        exit = exp = expand = 
+    fill = filter = floor = focused = frustum = 
+    get = green = 
+    hex = hint = hour = hue = 
+    image = imageMode = 
+    join = 
+    keyPressed = keyReleased = keyTyped = 
+    lerp = lerpColor = lightFalloff = lightSpecular = lights = line = loadBytes = loadFont = loadImage = 
+        loadMatrix = loadPixels = loadShader = loadShape = loadStrings = loadType = log = loop = 
+    mag = map = match = matchAll = max = millis = min = minute = modelX = modelY = modelZ = month = mouseButton = 
+        mouseClicked = mouseDragged = mouseMoved = mousePressed = mouseReleased = 
+    nf = nfc = nfp = nfs = noClip = noCursor = noFill = noHint = noLights = noLoop = noSmooth = noStroke = 
+        noTint = noise = noiseDetail = noiseSeed = norm = normal = 
+    open = openStream = ortho = 
+    parseByte = perspective = point = pointLight = popMatrix = popStyle = pow = print = printCamera = 
+        printMatrix = printProjection = println = pushMatrix = pushStyle = 
+    quad = quadraticVertex = 
+    radians = random = randomSeed = rect = rectMode = red = redraw = requestImage = resetMatrix = resetShader = 
+        reverse = rotate = rotateX = rotateY = rotateZ = round = 
+    saturation = save = saveBytes = saveFile = saveFrame = savePath = saveStream = saveStrings = saveType = 
+        scale = screenX = screenY = screenZ = second = selectFolder = selectInput = selectOutput = set = setup = 
+        shader = shape = shapeMode = shearX = shearY = shininess = shorten = sin = /* size = */ 
+        sketchFile = sketchPath = smooth = sort = specular = sphere = sphereDetail = splice = split = splitTokens = 
+        spotLight = sq = sqrt = start = stop = stroke = strokeCap = strokeJoin = strokeWeight = subset = 
+    tan = text = textAlign = textAscent = textDescent = textFont = textLeading = textMode = textSize = textWidth = 
+        texture = textureMode = tint = translate = triangle = trim = 
+    unbinary = unhex = updatePixels = 
+    vertex = 
+    year = 
+    /* + + + + + + + + + + + + + + + + getters + + + + + + + + + + + + */
+    // displayHeight = displayWidth = 
+    // frameCount = frameRate = 
+    // height = 
+    // key = keyCode = keyPressed = 
+    // mousePressed = mouseX = mouseY = 
+    // online = 
+    // pixels = pmouseX = pmouseY = 
+    // screenHeight = screenWidth = 
+    // width = 
+    null;
+
+//var injectCalledTimes = 0;
 var injectProcessingApi = function(processing) {
+    // injectCalledTimes++;
     // console.log({
+    //     called: injectCalledTimes,
     //     context: this,
-    //     receiver_class: klass,
+    //     defineGetter: __defineGetter__,
+    //     //receiver_class: klass,
     //     processing: processing,
     //     processing_typeof: typeof processing,
     //     processing_proto: processing.prototype,
@@ -251,7 +346,6 @@ var injectProcessingApi = function(processing) {
     filter = processing.filter;
     floor = processing.floor;
     focused = processing.focused;
-    frameRate = processing.frameRate;
     frustum = processing.frustum;
     get = processing.get;
     green = processing.green;
@@ -262,7 +356,7 @@ var injectProcessingApi = function(processing) {
     image = processing.image;
     imageMode = processing.imageMode;
     join = processing.join;
-    keyPressed = processing.keyPressed;
+    //keyPressed = processing.keyPressed;
     keyReleased = processing.keyReleased;
     keyTyped = processing.keyTyped;
     lerp = processing.lerp;
@@ -298,7 +392,7 @@ var injectProcessingApi = function(processing) {
     mouseClicked = processing.mouseClicked;
     mouseDragged = processing.mouseDragged;
     mouseMoved = processing.mouseMoved;
-    mousePressed = processing.mousePressed;
+    //mousePressed = processing.mousePressed;
     mouseReleased = processing.mouseReleased;
     nf = processing.nf;
     nfc = processing.nfc;
@@ -380,7 +474,7 @@ var injectProcessingApi = function(processing) {
     shininess = processing.shininess;
     shorten = processing.shorten;
     sin = processing.sin;
-    size = function(){processing.size.apply(processing,arguments);injectProcessingApi(processing)}
+    size = processing.size; // carefull, this resets to the default
     sketchFile = processing.sketchFile;
     sketchPath = processing.sketchPath;
     smooth = processing.smooth;
@@ -425,25 +519,22 @@ var injectProcessingApi = function(processing) {
     /* + + + + + + + + + + + + +
      + variables
      + + + + + + + + + + + + + */
-    __defineGetter__('displayHeight',function(){return processing.displayHeight})
-    __defineGetter__('displayWidth',function(){return processing.displayWidth})
-    __defineGetter__('frameCount',function(){return processing.frameCount})
-    __defineGetter__('frameRate',function(){return processing.frameRate})
-    __defineGetter__('height',function(){return processing.height})
-    __defineGetter__('key',function(){return processing.key})
-    __defineGetter__('keyCode',function(){return processing.keyCode})
-    __defineGetter__('keyPressed',function(){return processing.keyPressed})
-    __defineGetter__('mousePressed',function(){return processing.mousePressed})
-    __defineGetter__('mouseX',function(){return processing.mouseX})
-    __defineGetter__('mouseY',function(){return processing.mouseY})
-    __defineGetter__('online',function(){return true})
-    __defineGetter__('pixels',function(){return processing.pixels})
-    __defineGetter__('pmouseX',function(){return processing.pmouseX})
-    __defineGetter__('pmouseY',function(){return processing.pmouseY})
-    __defineGetter__('screenHeight',function(){return processing.screenHeight})
-    __defineGetter__('screenWidth',function(){return processing.screenWidth})
-    __defineGetter__('width',function(){return processing.width})
+    this.__defineGetter__('displayHeight',function(){return processing.displayHeight});
+    this.__defineGetter__('displayWidth',function(){return processing.displayWidth});
+    this.__defineGetter__('frameCount',function(){return processing.frameCount});
+    this.__defineGetter__('frameRate',function(){return processing.frameRate});
+    this.__defineGetter__('height',function(){return processing.height});
+    this.__defineGetter__('key',function(){return processing.key});
+    this.__defineGetter__('keyCode',function(){return processing.keyCode});
+    this.__defineGetter__('keyPressed',function(){return processing.keyPressed});
+    this.__defineGetter__('mousePressed',function(){return processing.mousePressed});
+    this.__defineGetter__('mouseX',function(){return processing.mouseX});
+    this.__defineGetter__('mouseY',function(){return processing.mouseY});
+    this.__defineGetter__('online',function(){return true});
+    this.__defineGetter__('pixels',function(){return processing.pixels});
+    this.__defineGetter__('pmouseX',function(){return processing.pmouseX});
+    this.__defineGetter__('pmouseY',function(){return processing.pmouseY});
+    this.__defineGetter__('screenHeight',function(){return processing.screenHeight});
+    this.__defineGetter__('screenWidth',function(){return processing.screenWidth});
+    this.__defineGetter__('width',function(){return processing.width});
 };
-var size = function () {
-
-}

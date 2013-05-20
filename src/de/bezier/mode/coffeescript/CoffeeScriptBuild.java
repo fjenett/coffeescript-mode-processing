@@ -96,6 +96,8 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		StringBuffer bigCode = new StringBuffer();
 		String modeExt = mode.getDefaultExtension(); // only loads the .pde files
 		boolean setupFound = false;
+		String apiInjectToken = "\"Processing API injection iffy goes here\";";
+
 		for (SketchCode sc : sketch.getCode())
 		{
 			if (sc.isExtension(modeExt)) 
@@ -117,7 +119,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 								indent = String.format( "%" + indentSetup + "s", " " );
 							}
 							bigCode.append( oneTab + indent + l + "\n" );
-							l = oneTab + "injectProcessingApi(@)";
+							l = oneTab + apiInjectToken; // add a marker where inject snip will go later
 							setupFound = true;
 						}
 					}
@@ -153,6 +155,7 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 
 		// inject Processing API to remove need for "@" ("this") everywhere ..
 
+		// read file in
 		File api = sketch.getMode().getContentFile( "processing-api-min.js" );
 		BufferedReader reader = PApplet.createReader(api);
 		StringBuilder builder = new StringBuilder();
@@ -160,9 +163,20 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		while ((oneLine = reader.readLine()) != null) builder.append( oneTab + oneLine.replaceAll("\r","\n") + "\n" );
 		String apiStr = builder.toString();
 
+		// find beginning and add api (see processing-api.js) after it
 		String sketchHead = coffeeSketchName + " = (function() {";
 		String compiledInjectedSketch = compiledSketch.replace( sketchHead, sketchHead + "\n" + apiStr + "\n" );
 
+		// add an IIFE (iffy) to inject on runtime
+		compiledInjectedSketch = compiledInjectedSketch.replace( 
+										apiInjectToken,
+										"(function(processing){injectProcessingApi(processing);"+ // TODO: call on instance or proto?
+										"size=function csModeApiInjectIffy (){"+
+										"processing.size.apply(processing,arguments);"+
+										"injectProcessingApi(processing);"+
+										"}})(this);" );
+
+		// write it back out
 		PrintWriter writer = PApplet.createWriter( compiledSketchFile );
 		String[] csLines = compiledInjectedSketch.split( "\n" );
 		for ( String l : csLines )
