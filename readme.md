@@ -70,6 +70,9 @@ if img.loaded
 See Examples > Basic > Image > ...
 Or use requestImage().
 
+**loop() is doLoop()**
+"loop" in CoffeeScript is a reserved keyword for the loop control structure, so here in CS mode doLoop() replaces the loop() from the Processing API. I added an example under "Examples -> Language -> LoopNoLoopDoLoop" that shows the use of both.
+
 
 ***How does it work?***
 

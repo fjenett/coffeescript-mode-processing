@@ -43,6 +43,9 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 	private final static String SETUP_REGEX = 
 		"^[\\s]*setup[\\s]*[:][\\s]*->[\\s]*?";
 
+	private final static String LOOP_CHECK_REGEX =
+		"[\\s]+loop[\\s]*\\([\\s]*\\)";
+
 	private File binFolder;
 	private Sketch sketch;
 	private Mode mode;
@@ -131,6 +134,22 @@ public class CoffeeScriptBuild extends JavaScriptBuild
 		String coffeeCode = "\n" + "class " + coffeeSketchName + 
 							"\n" + bigCode.toString() +
 							"\n";
+		
+		// ------------------------------------------
+		// 	CHECK FOR loop KEYWORD
+		// ------------------------------------------
+
+		String[] loopMatches = PApplet.match( coffeeCode, LOOP_CHECK_REGEX );
+		if ( loopMatches != null && loopMatches.length > 0 ) 
+		{
+			Base.showWarning(
+				"\"loop\" is a CoffeeScript keyword", 
+				"The precompiler found one or more instances of \"loop()\" in your code.\n"+
+				"If you were intending to use the Processing loop() function there,\n"+
+				"please change it to \"doLoop()\" as loop is a CoffeeScript keyword.", 
+				null );
+			return false;
+		}
 		
 		// ------------------------------------------
 		// 	PRE-COMPILE

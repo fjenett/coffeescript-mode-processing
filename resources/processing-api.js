@@ -63,7 +63,8 @@ var ADD = ALIGN_CENTER = ALIGN_LEFT = ALIGN_RIGHT = ALPHA = ALPHA_MASK = ALT = A
     join = 
     keyPressed = keyReleased = keyTyped = 
     lerp = lerpColor = lightFalloff = lightSpecular = lights = line = loadBytes = loadFont = loadImage = 
-        loadMatrix = loadPixels = loadShader = loadShape = loadStrings = loadType = log = loop = 
+        loadMatrix = loadPixels = loadShader = loadShape = loadStrings = loadType = log = 
+        doLoop = 
     mag = map = match = matchAll = max = millis = min = minute = modelX = modelY = modelZ = month = mouseButton = 
         mouseClicked = mouseDragged = mouseMoved = mousePressed = mouseReleased = 
     nf = nfc = nfp = nfs = noClip = noCursor = noFill = noHint = noLights = noLoop = noSmooth = noStroke = 
@@ -375,7 +376,7 @@ var injectProcessingApi = function(processing) {
     loadStrings = processing.loadStrings;
     loadType = processing.loadType;
     log = processing.log;
-    loop = processing.loop;
+    doLoop = processing.loop;
     mag = processing.mag;
     map = processing.map;
     match = processing.match;
