@@ -95,10 +95,12 @@ Each sketch stores it's "tabs.size" (how many spaces represent a tab) inside a s
 
 **pixels array**
 Beloved "pixels" is an object in CS mode, not an array:
+```
 pixels.length 		pixels.getLength()
-= pixels[i]			pixels.getPixel(index)
-pixels[i] = 		pixels.setPixel(index, color)
+col = pixels[i]		col = pixels.getPixel(index)
+pixels[i] = col		pixels.setPixel(index, col)
 ...
+```
 
 **Image preloading**
 Image preloading does currently not work out of the box, you will need to check if they are loaded:
