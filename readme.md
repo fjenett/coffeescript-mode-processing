@@ -2,7 +2,7 @@
 
 This is a "contributed mode" for Processing 2.0, it allows to write Processing sketches in CoffeeScript
 
-[CoffeeScript](http://coffeescript.org/) was created by [Jeremy Ashkenas](https://github.com/jashkenas), inventor of [ruby-processing](https://github.com/jashkenas/ruby-processing)
+[CoffeeScript](http://coffeescript.org/) was created by [Jeremy Ashkenas](https://github.com/jashkenas), check out his [ruby-processing](https://github.com/jashkenas/ruby-processing) as well!
 
 *Please note that as Processing.js is not up to date with Processing 2.0 API you should write your code as if for Processing 1.5!*
 
