@@ -4,7 +4,7 @@ This is a "contributed mode" for Processing 2.0, it allows to write Processing s
 
 [CoffeeScript](http://coffeescript.org/) was created by [Jeremy Ashkenas](https://github.com/jashkenas), check out his [ruby-processing](https://github.com/jashkenas/ruby-processing) as well!
 
-*Please note that as Processing.js is not up to date with Processing 2.0 API you should write your code as if for Processing 1.5!*
+*Please note that Processing.js [is not up to date with Processing 2.0 API](https://processing-js.lighthouseapp.com/projects/41284-processingjs/tickets?q=tagged%3A%22processing-2.0-api-change%22) so you should write your code as if for Processing 1.5!*
 
 ***Usage***
 
