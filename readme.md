@@ -46,6 +46,47 @@ draw: ->
 
 ***Some specialties***
 
+**Processing API**
+
+The Processing API is injected at the very beginning of setup(), so any use at a global level will **not** work. Like so:
+
+```coffeescript
+myFunkyPI = PI * 0.1234 # PI is not yet available here
+
+setup: ->
+    size myFunkyPI * 22, myFunkyPI * 44
+```
+
+**Variables and scope**
+
+If you need to declare (instance) variables for your sketch you need to prepend them with "@" which is short for "this." ... otherwise they will only be available in the current scope. There is no need to declare them before you use them, CoffeeScript will take care of that. For example:
+
+```coffeescript
+setup: ->
+    size 200, 200
+    myVar = 22 # only available here in setup
+    @myVar2 = 33 # available in draw as well!
+
+draw: ->
+    background @myVar2 # yes!
+```
+
+**It's all in a class**
+
+All your code will be wrapped into a CoffeeScript class, similar to:
+```coffeescript
+setup: ->
+    size 200, 200
+```
+becomes:
+```coffeescript
+class SketchXYZ
+    setup: ->
+        size 200, 200
+```
+
+Always, as in **really always**, if you run into trouble with your code look at the "YourSketchName_compiled.js" file that is loaded in the browser as your sketch. It contains the JavaScript code that is generated from your CoffeeScript and will help you understand (hopefully) what is going on and might be wrong.
+
 **Indentation**
 
 In CoffeeScript [whitespace is meaningful](http://coffeescript.org/#language). Sometimes copy-pasting code or unthoughtfully typing away will result in an exception (normally mentioning "INDENT").
