@@ -71,6 +71,10 @@ draw: ->
     background @myVar2 # yes!
 ```
 
+**Can't use hex colors**
+
+Use this notation instead: ```0xFF337799``` for a hex color that would be ```#337799``` (in other words replace "#" with 0xFF).
+
 **It's all in a class**
 
 All your code will be wrapped into a CoffeeScript class, similar to:
