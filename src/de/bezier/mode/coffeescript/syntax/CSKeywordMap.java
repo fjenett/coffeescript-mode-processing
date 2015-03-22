@@ -2,7 +2,6 @@ package de.bezier.mode.coffeescript.syntax;
 
 import processing.app.syntax.KeywordMap;
 import processing.app.syntax.Token;
-import processing.app.syntax.SyntaxUtilities;
 import javax.swing.text.Segment;
 
 /**
@@ -49,7 +48,7 @@ public class CSKeywordMap extends KeywordMap
                             k = k.next;
                             continue;
                     }
-                    if(SyntaxUtilities.regionMatches(ignoreCase,text,offset,
+                    if(regionMatches(ignoreCase,text,offset,
                             k.keyword))
                             return k.id;
                     k = k.next;
